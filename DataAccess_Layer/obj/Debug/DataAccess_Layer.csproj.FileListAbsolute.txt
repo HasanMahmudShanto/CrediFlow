@@ -1,0 +1,14 @@
+D:\Codes\Adv .NET\CrediFlow_final\CrediFlow\DataAccess_Layer\bin\Debug\DataAccess_Layer.dll.config
+D:\Codes\Adv .NET\CrediFlow_final\CrediFlow\DataAccess_Layer\bin\Debug\DataAccess_Layer.dll
+D:\Codes\Adv .NET\CrediFlow_final\CrediFlow\DataAccess_Layer\bin\Debug\DataAccess_Layer.pdb
+D:\Codes\Adv .NET\CrediFlow_final\CrediFlow\DataAccess_Layer\bin\Debug\EntityFramework.dll
+D:\Codes\Adv .NET\CrediFlow_final\CrediFlow\DataAccess_Layer\bin\Debug\EntityFramework.SqlServer.dll
+D:\Codes\Adv .NET\CrediFlow_final\CrediFlow\DataAccess_Layer\bin\Debug\EntityFramework.xml
+D:\Codes\Adv .NET\CrediFlow_final\CrediFlow\DataAccess_Layer\bin\Debug\EntityFramework.SqlServer.xml
+D:\Codes\Adv .NET\CrediFlow_final\CrediFlow\DataAccess_Layer\obj\Debug\DataAccess_Layer.csproj.AssemblyReference.cache
+D:\Codes\Adv .NET\CrediFlow_final\CrediFlow\DataAccess_Layer\obj\Debug\DataAccess_Layer.csproj.CoreCompileInputs.cache
+D:\Codes\Adv .NET\CrediFlow_final\CrediFlow\DataAccess_Layer\obj\Debug\DataAcce.8FDCCA1A.Up2Date
+D:\Codes\Adv .NET\CrediFlow_final\CrediFlow\DataAccess_Layer\obj\Debug\DataAccess_Layer.dll
+D:\Codes\Adv .NET\CrediFlow_final\CrediFlow\DataAccess_Layer\obj\Debug\DataAccess_Layer.pdb
+D:\Codes\Adv .NET\CrediFlow_final\CrediFlow\DataAccess_Layer\obj\Debug\DataAccess_Layer.Migrations.Initialize_database.resources
+D:\Codes\Adv .NET\CrediFlow_final\CrediFlow\DataAccess_Layer\obj\Debug\DataAccess_Layer.csproj.GenerateResource.cache

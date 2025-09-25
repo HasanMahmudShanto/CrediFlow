@@ -1,0 +1,14 @@
+D:\Codes\Adv .NET\CrediFlow_final\CrediFlow\BusinessLogic_Layer\bin\Debug\BusinessLogic_Layer.dll
+D:\Codes\Adv .NET\CrediFlow_final\CrediFlow\BusinessLogic_Layer\bin\Debug\BusinessLogic_Layer.pdb
+D:\Codes\Adv .NET\CrediFlow_final\CrediFlow\BusinessLogic_Layer\bin\Debug\AutoMapper.dll
+D:\Codes\Adv .NET\CrediFlow_final\CrediFlow\BusinessLogic_Layer\bin\Debug\DataAccess_Layer.dll
+D:\Codes\Adv .NET\CrediFlow_final\CrediFlow\BusinessLogic_Layer\bin\Debug\EntityFramework.dll
+D:\Codes\Adv .NET\CrediFlow_final\CrediFlow\BusinessLogic_Layer\bin\Debug\DataAccess_Layer.pdb
+D:\Codes\Adv .NET\CrediFlow_final\CrediFlow\BusinessLogic_Layer\bin\Debug\DataAccess_Layer.dll.config
+D:\Codes\Adv .NET\CrediFlow_final\CrediFlow\BusinessLogic_Layer\bin\Debug\AutoMapper.xml
+D:\Codes\Adv .NET\CrediFlow_final\CrediFlow\BusinessLogic_Layer\bin\Debug\EntityFramework.xml
+D:\Codes\Adv .NET\CrediFlow_final\CrediFlow\BusinessLogic_Layer\obj\Debug\BusinessLogic_Layer.csproj.AssemblyReference.cache
+D:\Codes\Adv .NET\CrediFlow_final\CrediFlow\BusinessLogic_Layer\obj\Debug\BusinessLogic_Layer.csproj.CoreCompileInputs.cache
+D:\Codes\Adv .NET\CrediFlow_final\CrediFlow\BusinessLogic_Layer\obj\Debug\Business.1799225A.Up2Date
+D:\Codes\Adv .NET\CrediFlow_final\CrediFlow\BusinessLogic_Layer\obj\Debug\BusinessLogic_Layer.dll
+D:\Codes\Adv .NET\CrediFlow_final\CrediFlow\BusinessLogic_Layer\obj\Debug\BusinessLogic_Layer.pdb
