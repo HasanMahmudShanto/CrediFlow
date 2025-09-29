@@ -9,8 +9,7 @@ namespace DataAccess_Layer.Interfaces
 {
     public interface ICustomerLoanRepo
     {
-
-        bool Create(CustomerLoan s);
+        CustomerLoan Create(CustomerLoan s);
         List<CustomerLoan> Get();
         CustomerLoan Get(int id);
         bool Update(CustomerLoan s);

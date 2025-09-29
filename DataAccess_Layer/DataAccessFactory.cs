@@ -15,5 +15,9 @@ namespace DataAccess_Layer
         {
             return new CustomerRepo();
         }
+        public static ICustomerLoanRepo CustomerLoanData() 
+        {
+            return new CustomerLoanRepo();
+        }
     }
 }
