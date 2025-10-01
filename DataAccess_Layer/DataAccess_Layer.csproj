@@ -56,16 +56,24 @@
     <Compile Include="EF\Tables\CustomerLoan.cs" />
     <Compile Include="EF\Tables\Customer.cs" />
     <Compile Include="EF\Tables\Loan.cs" />
+    <Compile Include="EF\Tables\Notification.cs" />
     <Compile Include="Interfaces\ICustomerLoanRepo.cs" />
     <Compile Include="Interfaces\ICustomerRepo.cs" />
     <Compile Include="Interfaces\ILoanRepo.cs" />
+    <Compile Include="Interfaces\INotificationRepo.cs" />
     <Compile Include="Migrations\202509242009424_Initialize_database.cs" />
     <Compile Include="Migrations\202509242009424_Initialize_database.Designer.cs">
       <DependentUpon>202509242009424_Initialize_database.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202510010914396_Add_Notification_Table.cs" />
+    <Compile Include="Migrations\202510010914396_Add_Notification_Table.Designer.cs">
+      <DependentUpon>202510010914396_Add_Notification_Table.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repos\CustomerLoanRepo.cs" />
     <Compile Include="Repos\CustomerRepo.cs" />
+    <Compile Include="Repos\NotificationRepo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -74,6 +82,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202509242009424_Initialize_database.resx">
       <DependentUpon>202509242009424_Initialize_database.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202510010914396_Add_Notification_Table.resx">
+      <DependentUpon>202510010914396_Add_Notification_Table.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

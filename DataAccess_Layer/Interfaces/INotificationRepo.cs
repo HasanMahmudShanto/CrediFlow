@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace DataAccess_Layer.Interfaces
 {
-    public interface ICustomerLoanRepo
+    public interface INotificationRepo
     {
-        CustomerLoan Create(CustomerLoan s);
-        List<CustomerLoan> Get();
-        CustomerLoan Get(int id);
-        bool Update(CustomerLoan s);
+        void Create(Notification s);
+        List<Notification> Get();
+        Notification Get(int id);
+        bool Update(Notification s);
         bool Delete(int id);
     }
 }

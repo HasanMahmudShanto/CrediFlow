@@ -9,36 +9,35 @@ using System.Threading.Tasks;
 
 namespace DataAccess_Layer.Repos
 {
-    internal class CustomerLoanRepo : ICustomerLoanRepo
+    public class NotificationRepo : INotificationRepo
     {
         CrediFlowContext db;
-        public CustomerLoanRepo() 
-        { 
+        public NotificationRepo()
+        {
             db = new CrediFlowContext();
         }
-        public CustomerLoan Create(CustomerLoan CustomerLoan_Data)
+        public void Create(Notification s)
         {
-            db.CustomerLoans.Add(CustomerLoan_Data);
+            db.Notifications.Add(s);
             db.SaveChanges();
-            return CustomerLoan_Data;
         }
 
         public bool Delete(int id)
         {
             throw new NotImplementedException();
         }
+        
+        public List<Notification> Get()
+        {
+            return db.Notifications.ToList();
+        }
 
-        public List<CustomerLoan> Get()
+        public Notification Get(int id)
         {
             throw new NotImplementedException();
         }
 
-        public CustomerLoan Get(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool Update(CustomerLoan s)
+        public bool Update(Notification s)
         {
             throw new NotImplementedException();
         }

@@ -23,22 +23,6 @@ namespace BusinessLogic_Layer.Service
             return new Mapper(config);
         }
 
-        public static List<CustomerDTO> Get()
-        {
-            var Data = DataAccessFactory.CustomerData().Get();
-            return GetMapper().Map<List<CustomerDTO>>(Data);
-        }
-
-        public static CustomerLoanDTO Get_Loan(int Customer_Id, int Loan_Id)
-        {
-            var Data = DataAccessFactory.CustomerLoanData().Get(id);
-            return GetMapper().Map<CustomerLoanDTO>(Data);
-        }
-        public static object Get_Loan(int Customer_Id, int Loan_Id)
-        {
-            // Business logic to retrieve loan details based on Customer_Id and Loan_Id
-            // This is a placeholder implementation
-            return new { CustomerId = Customer_Id, LoanId = Loan_Id, Amount = 10000, Status = "Approved" };
-        }
+        
     }
 }
