@@ -14,6 +14,7 @@ namespace DataAccess_Layer.EF
         public DbSet<Customer> Customers { get; set; }
         public DbSet<CustomerLoan> CustomerLoans { get; set; }
         public DbSet<Loan> Loans { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
 
     }
 }

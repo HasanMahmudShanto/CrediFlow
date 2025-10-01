@@ -19,6 +19,17 @@ namespace Presentation_Layer.Controllers
         public HttpResponseMessage Get_Loan(CustomerLoanDTO CustomerLoanDTO_Data)
         {
             CustomerLoanDTO Data = CustomerLoanService.Get_Loan(CustomerLoanDTO_Data);
+
+            NotificationDTO Notification_Data = new NotificationDTO
+            {
+                CustomerId = Data.Customer_Id,
+                Date = DateTime.Now,
+                IsRead = false,
+                Title = "Loan Issued",
+                Message = "Your loan has been successfully issued"
+          
+            };
+            NotificationService.Create(Notification_Data);
             return Request.CreateResponse(HttpStatusCode.OK, Data);
         }
 
