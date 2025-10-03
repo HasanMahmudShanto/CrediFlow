@@ -13,3 +13,5 @@ D:\Codes\Adv .NET\CrediFlow_final\CrediFlow\DataAccess_Layer\obj\Debug\DataAcces
 D:\Codes\Adv .NET\CrediFlow_final\CrediFlow\DataAccess_Layer\obj\Debug\DataAccess_Layer.Migrations.Initialize_database.resources
 D:\Codes\Adv .NET\CrediFlow_final\CrediFlow\DataAccess_Layer\obj\Debug\DataAccess_Layer.csproj.GenerateResource.cache
 D:\Codes\Adv .NET\CrediFlow_final\CrediFlow\DataAccess_Layer\obj\Debug\DataAccess_Layer.Migrations.Add_Notification_Table.resources
+D:\Codes\Adv .NET\CrediFlow_final\CrediFlow\DataAccess_Layer\obj\Debug\DataAccess_Layer.Migrations.Add_Payment_Table.resources
+D:\Codes\Adv .NET\CrediFlow_final\CrediFlow\DataAccess_Layer\obj\Debug\DataAccess_Layer.Migrations.Fix_Customer_Loan_Id_Name.resources

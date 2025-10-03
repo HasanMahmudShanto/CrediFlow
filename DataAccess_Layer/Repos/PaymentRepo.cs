@@ -9,19 +9,18 @@ using System.Threading.Tasks;
 
 namespace DataAccess_Layer.Repos
 {
-    public class CustomerRepo : ICustomerRepo
+    public class PaymentRepo : IPaymentRepo
     {
-
         CrediFlowContext db;
-        public CustomerRepo()
+        public PaymentRepo()
         {
             db = new CrediFlowContext();
         }
-        public Customer Create(Customer Customer_data)
+        public bool Create(Payment s)
         {
-            db.Customers.Add(Customer_data);
+            db.Payments.Add(s);
             db.SaveChanges();
-            return Customer_data;
+            return true;
         }
 
         public bool Delete(int id)
@@ -29,17 +28,17 @@ namespace DataAccess_Layer.Repos
             throw new NotImplementedException();
         }
 
-        public List<Customer> Get()
-        {
-            return db.Customers.ToList();
-        }
-
-        public Customer Get(int id)
+        public List<Payment> Get()
         {
             throw new NotImplementedException();
         }
 
-        public bool Update(Customer s)
+        public Payment Get(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Update(Payment s)
         {
             throw new NotImplementedException();
         }

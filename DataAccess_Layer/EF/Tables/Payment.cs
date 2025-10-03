@@ -8,19 +8,20 @@ using System.Threading.Tasks;
 
 namespace DataAccess_Layer.EF.Tables
 {
-    public class CustomerLoan
+    public class Payment
     {
         [Key]
-        public int Customer_Loan_Id { get; set; }
+        public int Payment_Id { get; set; }
+        public DateTime Payment_Date { get; set; }
         [ForeignKey("Customer")]
         public int Customer_Id { get; set; }
-        [ForeignKey("Loan")]
-        public int Loan_Id { get; set; }
-        public DateTime Loan_Taken_Date { get; set; }
-        public float Outstanding_Amount { get; set; }
+        [ForeignKey("CustomerLoan")]
+        public int Customer_Loan_Id { get; set; }
+        public float Amount { get; set; }
 
+
+        public virtual CustomerLoan CustomerLoan { get; set; }
         public virtual Customer Customer { get; set; }
-        public virtual Loan Loan { get; set; }
 
     }
 }

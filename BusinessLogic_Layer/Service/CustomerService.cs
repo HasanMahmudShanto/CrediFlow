@@ -25,5 +25,11 @@ namespace BusinessLogic_Layer.Service
             var Data = DataAccessFactory.CustomerData().Get();
             return GetMapper().Map<List<CustomerDTO>>(Data);
         }
+
+        public static CustomerDTO Register(CustomerDTO customerDTO_Data)
+        {
+            var Data = DataAccessFactory.CustomerData().Create(GetMapper().Map<Customer>(customerDTO_Data));
+            return GetMapper().Map<CustomerDTO>(Data);
+        }
     }
 }

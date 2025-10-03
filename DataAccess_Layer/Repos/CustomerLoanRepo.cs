@@ -35,12 +35,18 @@ namespace DataAccess_Layer.Repos
 
         public CustomerLoan Get(int id)
         {
-            throw new NotImplementedException();
+            return db.CustomerLoans.Find(id);
         }
 
-        public bool Update(CustomerLoan s)
+        public CustomerLoan Update(CustomerLoan CustomerLoan_Data)
         {
-            throw new NotImplementedException();
+            var Data = db.CustomerLoans.Find(CustomerLoan_Data.Customer_Loan_Id);
+            if (Data != null)
+            {
+                Data.Outstanding_Amount = CustomerLoan_Data.Outstanding_Amount;
+                db.SaveChanges();
+            }
+            return Data;
         }
     }
 }

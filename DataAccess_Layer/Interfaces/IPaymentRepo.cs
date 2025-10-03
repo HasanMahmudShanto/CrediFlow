@@ -7,14 +7,12 @@ using System.Threading.Tasks;
 
 namespace DataAccess_Layer.Interfaces
 {
-    public interface ILoanRepo
+    public interface IPaymentRepo
     {
-
-        Loan Create(Loan s);
-        List<Loan> Get();
-        Loan Get(int id);
-        bool Update(Loan s);
+        bool Create(Payment s);
+        List<Payment> Get();
+        Payment Get(int id);
+        bool Update(Payment s);
         bool Delete(int id);
-        
     }
 }

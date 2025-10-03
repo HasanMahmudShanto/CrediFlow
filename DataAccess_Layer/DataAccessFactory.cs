@@ -15,6 +15,10 @@ namespace DataAccess_Layer
         {
             return new CustomerRepo();
         }
+        public static ILoanRepo LoanData()
+        {
+            return new LoanRepo();
+        }
         public static ICustomerLoanRepo CustomerLoanData() 
         {
             return new CustomerLoanRepo();
@@ -22,6 +26,11 @@ namespace DataAccess_Layer
         public static INotificationRepo NotificationData()
         {
             return new NotificationRepo();
+        }
+
+        public static IPaymentRepo PaymentData()
+        {
+            return new PaymentRepo();
         }
     }
 }

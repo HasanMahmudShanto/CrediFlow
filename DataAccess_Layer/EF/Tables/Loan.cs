@@ -16,6 +16,8 @@ namespace DataAccess_Layer.EF.Tables
         public float Interest_Percentage { get; set; }
         public float Penalty_Amount { get; set; }
         public int Installment_Interval_Duration { get; set; }
+        public float Installment_Amount { get; set; }
+        public int Loan_Amount {  get; set; }
 
     }
 }

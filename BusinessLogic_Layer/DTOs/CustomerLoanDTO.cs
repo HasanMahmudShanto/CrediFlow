@@ -12,5 +12,6 @@ namespace BusinessLogic_Layer.DTOs
         public int Customer_Id { get; set; }
         public int Loan_Id { get; set; }
         public DateTime Loan_Taken_Date { get; set; }
+        public float Outstanding_Amount { get; set; }
     }
 }

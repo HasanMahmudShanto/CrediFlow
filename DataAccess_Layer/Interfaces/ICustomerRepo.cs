@@ -10,7 +10,7 @@ namespace DataAccess_Layer.Interfaces
     public interface ICustomerRepo
     {
 
-        bool Create(Customer s);
+        Customer Create(Customer s);
         List<Customer> Get();
         Customer Get(int id);
         bool Update(Customer s);

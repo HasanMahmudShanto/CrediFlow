@@ -12,7 +12,7 @@ namespace DataAccess_Layer.Interfaces
         CustomerLoan Create(CustomerLoan s);
         List<CustomerLoan> Get();
         CustomerLoan Get(int id);
-        bool Update(CustomerLoan s);
+        CustomerLoan Update(CustomerLoan s);
         bool Delete(int id);
     }
 }
