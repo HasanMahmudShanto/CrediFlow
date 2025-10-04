@@ -44,7 +44,6 @@ namespace BusinessLogic_Layer.Service
             PaymentDTO_Data.Amount = CustomerLoanDTO_Data.Next_Installment_Amount;
 
 
-            //CustomerLoanDTO_Data.Next_Installment_Date = DateTime.Now.AddDays(-1); // Forcing late fee for testing
             // Late fee calculation
             float Late_Fee = 0.00f;
             if(CustomerLoanDTO_Data.Next_Installment_Date - DateTime.Now >= TimeSpan.Zero)
