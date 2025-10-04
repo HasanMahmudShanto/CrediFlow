@@ -25,22 +25,28 @@ namespace DataAccess_Layer.Repos
 
         public bool Delete(int id)
         {
-            throw new NotImplementedException();
+            var ex = db.Payments.Find(id);
+            db.Payments.Remove(ex);
+            db.SaveChanges();
+            return true;
         }
 
         public List<Payment> Get()
         {
-            throw new NotImplementedException();
+            return db.Payments.ToList();
         }
 
         public Payment Get(int id)
         {
-            throw new NotImplementedException();
+            return db.Payments.Find(id);
         }
 
         public bool Update(Payment s)
         {
-            throw new NotImplementedException();
+            var Data = db.Payments.Find(s.Payment_Id);
+            db.Entry(Data).CurrentValues.SetValues(s);
+            db.SaveChanges();
+            return true;
         }
     }
 }

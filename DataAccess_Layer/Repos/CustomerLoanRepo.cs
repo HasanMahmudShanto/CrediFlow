@@ -25,12 +25,15 @@ namespace DataAccess_Layer.Repos
 
         public bool Delete(int id)
         {
-            throw new NotImplementedException();
+            var ex = db.CustomerLoans.Find(id);
+            db.CustomerLoans.Remove(ex);
+            db.SaveChanges();
+            return true;
         }
 
         public List<CustomerLoan> Get()
         {
-            throw new NotImplementedException();
+            return db.CustomerLoans.ToList();
         }
 
         public CustomerLoan Get(int id)
@@ -41,11 +44,8 @@ namespace DataAccess_Layer.Repos
         public CustomerLoan Update(CustomerLoan CustomerLoan_Data)
         {
             var Data = db.CustomerLoans.Find(CustomerLoan_Data.Customer_Loan_Id);
-            if (Data != null)
-            {
-                Data.Outstanding_Amount = CustomerLoan_Data.Outstanding_Amount;
-                db.SaveChanges();
-            }
+            db.Entry(Data).CurrentValues.SetValues(CustomerLoan_Data);
+            db.SaveChanges();
             return Data;
         }
     }

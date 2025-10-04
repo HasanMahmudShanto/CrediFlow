@@ -9,7 +9,7 @@ namespace DataAccess_Layer.Interfaces
 {
     public interface INotificationRepo
     {
-        void Create(Notification s);
+        bool Create(Notification s);
         List<Notification> Get();
         Notification Get(int id);
         bool Update(Notification s);

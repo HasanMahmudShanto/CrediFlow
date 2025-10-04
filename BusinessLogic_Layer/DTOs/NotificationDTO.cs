@@ -14,5 +14,7 @@ namespace BusinessLogic_Layer.DTOs
         public DateTime Date { get; set; }
         public int CustomerId { get; set; }
         public bool IsRead { get; set; }
+        public CustomerDTO CustomerDTO { get; set; }
+
     }
 }

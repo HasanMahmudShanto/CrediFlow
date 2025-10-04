@@ -26,7 +26,10 @@ namespace DataAccess_Layer.Repos
 
         public bool Delete(int id)
         {
-            throw new NotImplementedException();
+            var ex = db.Customers.Find(id);
+            db.Customers.Remove(ex);
+            db.SaveChanges();
+            return true;
         }
 
         public List<Customer> Get()
@@ -36,12 +39,15 @@ namespace DataAccess_Layer.Repos
 
         public Customer Get(int id)
         {
-            throw new NotImplementedException();
+            return db.Customers.Find(id);
         }
 
-        public bool Update(Customer s)
+        public bool Update(Customer Customer_Data)
         {
-            throw new NotImplementedException();
+            var ex = db.Customers.Find(Customer_Data.Customer_Id);
+            db.Entry(ex).CurrentValues.SetValues(Customer_Data);
+            db.SaveChanges();
+            return true;
         }
     }
 }

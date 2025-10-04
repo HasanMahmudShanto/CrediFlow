@@ -19,9 +19,10 @@ namespace BusinessLogic_Layer.Service
             });
             return new Mapper(config);
         }
-        public static void Create(NotificationDTO data)
+        public static bool Create(NotificationDTO NotificationDTO_Data)
         {
-            DataAccessFactory.NotificationData().Create(GetMapper().Map<Notification>(data));
+            bool is_Create = DataAccessFactory.NotificationData().Create(GetMapper().Map<Notification>(NotificationDTO_Data));
+            return is_Create;
         }
 
         public static List<NotificationDTO> Get()

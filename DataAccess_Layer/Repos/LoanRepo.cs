@@ -25,7 +25,10 @@ namespace DataAccess_Layer.Repos
 
         public bool Delete(int id)
         {
-            throw new NotImplementedException();
+            var ex = db.Loans.Find(id);
+            db.Loans.Remove(ex);
+            db.SaveChanges();
+            return true;
         }
 
         public List<Loan> Get()
@@ -41,7 +44,10 @@ namespace DataAccess_Layer.Repos
 
         public bool Update(Loan s)
         {
-            throw new NotImplementedException();
+            var ex = db.Loans.Find(s.Loan_Id);
+            db.Entry(ex).CurrentValues.SetValues(s);
+            db.SaveChanges();
+            return true;
         }
     }
 }

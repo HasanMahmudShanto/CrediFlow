@@ -16,15 +16,19 @@ namespace DataAccess_Layer.Repos
         {
             db = new CrediFlowContext();
         }
-        public void Create(Notification s)
+        public bool Create(Notification s)
         {
             db.Notifications.Add(s);
             db.SaveChanges();
+            return true;
         }
 
         public bool Delete(int id)
         {
-            throw new NotImplementedException();
+            var ex = db.Notifications.Find(id);
+            db.Notifications.Remove(ex);
+            db.SaveChanges();
+            return true;
         }
         
         public List<Notification> Get()
@@ -34,12 +38,15 @@ namespace DataAccess_Layer.Repos
 
         public Notification Get(int id)
         {
-            throw new NotImplementedException();
+            return db.Notifications.Find(id);
         }
 
         public bool Update(Notification s)
         {
-            throw new NotImplementedException();
+            var Data = db.Notifications.Find(s.Notification_Id);
+            db.Entry(Data).CurrentValues.SetValues(s);
+            db.SaveChanges();
+            return true;
         }
     }
 }
