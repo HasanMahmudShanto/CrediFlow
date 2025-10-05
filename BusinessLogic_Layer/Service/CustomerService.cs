@@ -57,7 +57,7 @@ namespace BusinessLogic_Layer.Service
 
         public static CustomerDTO Register(CustomerDTO CustomerDTO_Data)
         {
-            CustomerDTO_Data.Credit_Score = 250;
+            CustomerDTO_Data.Credit_Score = Calculate_Credit_Score(CustomerDTO_Data.Monthly_Income);
             CustomerDTO_Data.Status = Determine_Status(CustomerDTO_Data.Credit_Score);
             var Data = DataAccessFactory.CustomerData().Create(GetMapper().Map<Customer>(CustomerDTO_Data));
             return GetMapper().Map<CustomerDTO>(Data);

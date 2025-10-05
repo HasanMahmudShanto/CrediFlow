@@ -31,12 +31,21 @@ namespace BusinessLogic_Layer.Service
             LoanDTO LoanDTO_Data = LoanService.Get(CustomerLoanDTO_Data.Loan_Id);
 
             //Null checks and validations
+
+            //Checking if related data exists
             if (CustomerLoanDTO_Data == null || CustomerDTO_Data == null || LoanDTO_Data == null) 
                 return null;
-            else if(CustomerLoanDTO_Data.Outstanding_Amount < PaymentDTO_Data.Amount || CustomerLoanDTO_Data.Outstanding_Amount == 0) 
+            //Checking if the payment amount is valid
+            else if (CustomerLoanDTO_Data.Outstanding_Amount < PaymentDTO_Data.Amount || CustomerLoanDTO_Data.Outstanding_Amount == 0) 
                 return null;
-            if(CustomerDTO_Data.Status == "Terminated" || CustomerLoanDTO_Data.Status == "Closed") 
+            //Checking if the loan is already closed or customer is terminated
+            if (CustomerDTO_Data.Status == "Terminated" || CustomerLoanDTO_Data.Status == "Closed") 
                 return null;
+            //Ensuring the payment is being made by the rightful customer
+            if (PaymentDTO_Data.Customer_Id != CustomerLoanDTO_Data.Customer_Id) 
+                return null;
+
+
             //Processing payment
             PaymentDTO_Data.Payment_Date = DateTime.Now;
             PaymentDTO_Data.CustomerDTO = CustomerDTO_Data;
@@ -44,7 +53,7 @@ namespace BusinessLogic_Layer.Service
             PaymentDTO_Data.Amount = CustomerLoanDTO_Data.Next_Installment_Amount;
 
             //force late payment for testing
-            CustomerLoanDTO_Data.Next_Installment_Date = CustomerLoanDTO_Data.Next_Installment_Date.AddMonths(-12);
+           // CustomerLoanDTO_Data.Next_Installment_Date = CustomerLoanDTO_Data.Next_Installment_Date.AddMonths(-12);
 
             // Late fee calculation
             float Late_Fee = 0.00f;
@@ -107,6 +116,14 @@ namespace BusinessLogic_Layer.Service
             //Updating CustomerLoanDTO_Data
 
             CustomerLoanDTO_Data.Outstanding_Amount -= PaymentDTO_Data.Amount;
+
+            //If there are some decimals left due to float calculations,
+            //we consider the loan fully paid if outstanding amount is less than 1 currency unit
+            if (CustomerLoanDTO_Data.Outstanding_Amount < 1.00f && CustomerLoanDTO_Data.Outstanding_Amount > 0.00f) 
+                CustomerLoanDTO_Data.Outstanding_Amount = 0.00f;
+
+
+            //If loan is fully paid, closing it
             if (CustomerLoanDTO_Data.Outstanding_Amount == 0)
             {   
                 CustomerLoanDTO_Data.Status = "Closed";
@@ -118,7 +135,7 @@ namespace BusinessLogic_Layer.Service
                 CustomerLoanDTO_Data.Total_Paid_Amount += PaymentDTO_Data.Amount;
                 CustomerLoanDTO_Data.Loan_End_Date = DateTime.Now;
             }
-            else
+            else //If loan is not fully paid, setting up next installment date and amount
             {
                 CustomerLoanDTO_Data.Next_Installment_Date = CustomerLoanDTO_Data.Next_Installment_Date.AddMonths(1);
                 CustomerLoanDTO_Data.Next_Installment_Amount = CustomerLoanDTO_Data.LoanDTO.Installment_Amount + Late_Fee;

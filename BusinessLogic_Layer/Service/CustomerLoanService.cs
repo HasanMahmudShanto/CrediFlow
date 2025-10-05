@@ -84,6 +84,10 @@ namespace BusinessLogic_Layer.Service
             return Data;
         }
 
-
+        public static List<CustomerLoanDTO> Get_All_Active_Loans()
+        {
+            List<CustomerLoanDTO> Data = GetMapper().Map<List<CustomerLoanDTO>>(DataAccessFactory.CustomerLoanData().Get_All_Active_Loans());
+            return Data;
+        }
     }
 }

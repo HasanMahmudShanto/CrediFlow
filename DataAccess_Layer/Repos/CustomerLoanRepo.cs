@@ -50,13 +50,17 @@ namespace DataAccess_Layer.Repos
         }
         public bool Check_Existance_Of_Same_Loan(int customer_id, int loan_id)
         {
-            var Data = db.CustomerLoans.Where(cl => cl.Customer_Id == customer_id && cl.Loan_Id == loan_id).FirstOrDefault();
+            var Data = db.CustomerLoans.Where(cl => cl.Customer_Id == customer_id && cl.Loan_Id == loan_id && cl.Status.Equals("Active")).FirstOrDefault();
             if (Data == null) return false;
             return true;
         }
         public List<CustomerLoan> Get_By_Customer(int customer_id)
         {
             return db.CustomerLoans.Where(cl => cl.Customer_Id == customer_id).ToList();
+        }
+        public List<CustomerLoan> Get_All_Active_Loans()
+        {
+            return db.CustomerLoans.Where(cl => cl.Status.Equals("Active")).ToList();
         }
     }
 }

@@ -56,6 +56,7 @@
     <Compile Include="Service\LoanService.cs" />
     <Compile Include="Service\NotificationService.cs" />
     <Compile Include="Service\PaymentService.cs" />
+    <Compile Include="Service\ReminderService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

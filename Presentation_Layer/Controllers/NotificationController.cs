@@ -17,5 +17,12 @@ namespace Presentation_Layer.Controllers
             var Data = BusinessLogic_Layer.Service.NotificationService.Get();
             return Request.CreateResponse(HttpStatusCode.OK, Data);
         }
+        [HttpGet]
+        [Route("{id}")]
+        public HttpResponseMessage Get(int id)
+        {
+            var Data = BusinessLogic_Layer.Service.NotificationService.Get_By_Customer(id);
+            return Request.CreateResponse(HttpStatusCode.OK, Data);
+        }
     }
 }
