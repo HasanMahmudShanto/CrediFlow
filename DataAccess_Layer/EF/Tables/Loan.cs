@@ -18,6 +18,6 @@ namespace DataAccess_Layer.EF.Tables
         public int Installment_Interval_Duration { get; set; }
         public float Installment_Amount { get; set; }
         public int Loan_Amount {  get; set; }
-
+        public float Minimum_Credit_Score { get; set; }
     }
 }

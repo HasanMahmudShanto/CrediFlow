@@ -48,5 +48,15 @@ namespace DataAccess_Layer.Repos
             db.SaveChanges();
             return Data;
         }
+        public bool Check_Existance_Of_Same_Loan(int customer_id, int loan_id)
+        {
+            var Data = db.CustomerLoans.Where(cl => cl.Customer_Id == customer_id && cl.Loan_Id == loan_id).FirstOrDefault();
+            if (Data == null) return false;
+            return true;
+        }
+        public List<CustomerLoan> Get_By_Customer(int customer_id)
+        {
+            return db.CustomerLoans.Where(cl => cl.Customer_Id == customer_id).ToList();
+        }
     }
 }

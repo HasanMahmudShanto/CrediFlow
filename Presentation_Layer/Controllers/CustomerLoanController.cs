@@ -21,6 +21,12 @@ namespace Presentation_Layer.Controllers
             CustomerLoanDTO Data = CustomerLoanService.Get_Loan(CustomerLoanDTO_Data);
             return Request.CreateResponse(HttpStatusCode.OK, Data);
         }
-
+        [HttpGet]
+        [Route("loan_taken/{id}")]
+        public HttpResponseMessage Get(int id)
+        {
+            CustomerLoanDTO Data = CustomerLoanService.Get(id);
+            return Request.CreateResponse(HttpStatusCode.OK, Data);
+        }
     }
 }

@@ -33,5 +33,12 @@ namespace Presentation_Layer.Controllers
             LoanDTO Data = LoanService.Create(LoanDTO_Data);
             return Request.CreateResponse(HttpStatusCode.OK, Data);
         }
+        [HttpGet]
+        [Route("Get_eligible_loans/{customer_id}")]
+        public HttpResponseMessage Get_eligible_loans(int customer_id)
+        {
+            List<LoanDTO> Eligible_Loans = LoanService.Get_Eligible_Loans(customer_id);
+            return Request.CreateResponse(HttpStatusCode.OK, Eligible_Loans);
+        }
     }
 }

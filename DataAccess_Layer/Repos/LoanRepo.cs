@@ -49,5 +49,10 @@ namespace DataAccess_Layer.Repos
             db.SaveChanges();
             return true;
         }
+        public List<Loan> Get_Eligible_Loans(float credit_score)
+        {
+            var Eligible_Loans = db.Loans.Where(loan => loan.Minimum_Credit_Score <= credit_score).ToList();
+            return Eligible_Loans;
+        }
     }
 }

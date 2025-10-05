@@ -41,13 +41,34 @@ namespace BusinessLogic_Layer.Service
         }
         public static LoanDTO Create(LoanDTO LoanDTO_Data)
         {
-
-            LoanDTO_Data.Installment_Amount = Calculate_Installment_Amount(LoanDTO_Data.Loan_Amount, 
-                LoanDTO_Data.Interest_Percentage, 
-                LoanDTO_Data.Loan_Duration_Months);
+            if(LoanDTO_Data.Loan_Type != "Re-Activation Loan")
+            {
+                LoanDTO_Data.Installment_Amount = Calculate_Installment_Amount(LoanDTO_Data.Loan_Amount,
+                    LoanDTO_Data.Interest_Percentage,
+                    LoanDTO_Data.Loan_Duration_Months);
+            }
+            else
+            {
+                LoanDTO_Data.Installment_Amount = LoanDTO_Data.Loan_Amount;
+            }
             var Data = DataAccessFactory.LoanData().Create(GetMapper().Map<Loan>(LoanDTO_Data));
             return GetMapper().Map<LoanDTO>(Data);
         }
-        
+
+        public static List<LoanDTO> Get_Eligible_Loans(int customer_id)
+        {
+            //Getting customer data
+            CustomerDTO CustomerDTO_Data = CustomerService.Get(customer_id);
+
+            //Null check
+            if (CustomerDTO_Data == null) 
+                return null;
+            else
+            {
+                //Fetching eligible loans based on credit score
+                List<LoanDTO> Eigible_Loans = GetMapper().Map<List<LoanDTO>>(DataAccessFactory.LoanData().Get_Eligible_Loans(CustomerDTO_Data.Credit_Score));
+                return Eigible_Loans;
+            }
+        }
     }
 }

@@ -31,43 +31,109 @@ namespace BusinessLogic_Layer.Service
             LoanDTO LoanDTO_Data = LoanService.Get(CustomerLoanDTO_Data.Loan_Id);
 
             //Null checks and validations
-            if (CustomerLoanDTO_Data == null) 
+            if (CustomerLoanDTO_Data == null || CustomerDTO_Data == null || LoanDTO_Data == null) 
                 return null;
-            else if(CustomerLoanDTO_Data.Outstanding_Amount < PaymentDTO_Data.Amount || PaymentDTO_Data.Amount <= 0
-                || CustomerLoanDTO_Data.Outstanding_Amount == 0) 
+            else if(CustomerLoanDTO_Data.Outstanding_Amount < PaymentDTO_Data.Amount || CustomerLoanDTO_Data.Outstanding_Amount == 0) 
                 return null;
-
+            if(CustomerDTO_Data.Status == "Terminated" || CustomerLoanDTO_Data.Status == "Closed") 
+                return null;
             //Processing payment
             PaymentDTO_Data.Payment_Date = DateTime.Now;
             PaymentDTO_Data.CustomerDTO = CustomerDTO_Data;
-            PaymentDTO_Data.CustomerLoanDTO = CustomerLoanDTO_Data; // Including late fee if any
+            PaymentDTO_Data.CustomerLoanDTO = CustomerLoanDTO_Data; 
             PaymentDTO_Data.Amount = CustomerLoanDTO_Data.Next_Installment_Amount;
 
+            //force late payment for testing
+            CustomerLoanDTO_Data.Next_Installment_Date = CustomerLoanDTO_Data.Next_Installment_Date.AddMonths(-12);
 
             // Late fee calculation
             float Late_Fee = 0.00f;
-            if(CustomerLoanDTO_Data.Next_Installment_Date - DateTime.Now >= TimeSpan.Zero)
+            if(CustomerLoanDTO_Data.Next_Installment_Date - DateTime.Now >= TimeSpan.Zero) // On-time payment
             {
-                Late_Fee = 0.00f;
+                if(CustomerDTO_Data.Status == "Restricted") //Re-activating restricted customers
+                {
+                    CustomerDTO_Data.Status = "Active";
+                    Late_Fee = 0.00f;
+                    CustomerDTO_Data.Credit_Score = 300; // Reset credit score upon re-activation
+                    CustomerDTO_Data.Status = "Poor";
+                }
+                else // Normal Monthly Installment Payment
+                {
+                    Late_Fee = 0.00f;
+                    CustomerDTO_Data.Credit_Score += 20; // Increase credit score for on-time payment
+                }
+            }
+            else // Late payment
+            {
+                if(CustomerDTO_Data.Status == "Restricted") // Restricted customers making late payments (Terminate them)
+                {
+                    CustomerDTO_Data.Status = "Terminated"; // If restricted, then terminate the customer
+                    CustomerDTO_Data.Credit_Score = 0; // Reset credit score upon termination
+
+                    //populating customer loan data
+                    CustomerLoanDTO_Data.Status = "Closed";
+                    CustomerLoanDTO_Data.Next_Installment_Amount = 0.00f;
+
+                    // No next installment date if loan is fully paid so we put it max as in maxValue means no more active
+                    CustomerLoanDTO_Data.Next_Installment_Date = DateTime.MaxValue;
+
+                    CustomerLoanDTO_Data.Total_Paid_Amount = 0;
+                    CustomerLoanDTO_Data.Loan_End_Date = DateTime.Now;
+
+
+                    //Updating CustomerLoan in DB and returning updated data
+                    CustomerLoanDTO Data = GetMapper().Map<CustomerLoanDTO>(DataAccessFactory.CustomerLoanData().Update(GetMapper().Map<CustomerLoan>(CustomerLoanDTO_Data)));
+                    Data.CustomerDTO = CustomerDTO_Data;
+                    Data.LoanDTO = LoanDTO_Data;
+
+                    //Saving updated customer data in DB
+                    CustomerDTO Updated_Customer_Data = CustomerService.Update(CustomerDTO_Data);
+
+                    //Returning null as the customer is terminated
+                    return null;
+                }
+                else // Normal Monthly Installment Payment
+                {
+                    Late_Fee = 0.1f * PaymentDTO_Data.CustomerLoanDTO.LoanDTO.Installment_Amount; // 10% late fee on monthly installment
+                    CustomerDTO_Data.Credit_Score -= 25; // Decrease credit score for late payment
+                }
+            }
+
+            //Ensuring credit score remains within bounds
+            if (CustomerDTO_Data.Credit_Score > 900) CustomerDTO_Data.Credit_Score = 900;
+            else if (CustomerDTO_Data.Credit_Score < 0) CustomerDTO_Data.Credit_Score = 0;
+
+
+            //Updating CustomerLoanDTO_Data
+
+            CustomerLoanDTO_Data.Outstanding_Amount -= PaymentDTO_Data.Amount;
+            if (CustomerLoanDTO_Data.Outstanding_Amount == 0)
+            {   
+                CustomerLoanDTO_Data.Status = "Closed";
+                CustomerLoanDTO_Data.Next_Installment_Amount = 0.00f;
+
+                // No next installment date if loan is fully paid so we put it max as in maxValue means no more active
+                CustomerLoanDTO_Data.Next_Installment_Date = DateTime.MaxValue; 
+
+                CustomerLoanDTO_Data.Total_Paid_Amount += PaymentDTO_Data.Amount;
+                CustomerLoanDTO_Data.Loan_End_Date = DateTime.Now;
             }
             else
             {
-                Late_Fee = 0.1f * PaymentDTO_Data.CustomerLoanDTO.LoanDTO.Installment_Amount; // Fixed late fee for simplicity
+                CustomerLoanDTO_Data.Next_Installment_Date = CustomerLoanDTO_Data.Next_Installment_Date.AddMonths(1);
+                CustomerLoanDTO_Data.Next_Installment_Amount = CustomerLoanDTO_Data.LoanDTO.Installment_Amount + Late_Fee;
+                CustomerLoanDTO_Data.Outstanding_Amount += Late_Fee;
+                CustomerLoanDTO_Data.Total_Paid_Amount += PaymentDTO_Data.Amount;
             }
-
-            //Updating CustomerLoanDTO_Data
-            CustomerLoanDTO_Data.Next_Installment_Date = CustomerLoanDTO_Data.Next_Installment_Date.AddMonths(1);
-            CustomerLoanDTO_Data.Next_Installment_Amount = CustomerLoanDTO_Data.LoanDTO.Installment_Amount + Late_Fee;
-            CustomerLoanDTO_Data.Outstanding_Amount += Late_Fee;
-            CustomerLoanDTO_Data.Total_Paid_Amount += PaymentDTO_Data.Amount;
 
             //Saving payment in DB
             var Payment_Data = DataAccessFactory.PaymentData().Create(GetMapper().Map<Payment>(PaymentDTO_Data));
+            //Saving updated customer data in DB
+            CustomerDTO Customer_Data = CustomerService.Update(CustomerDTO_Data);
 
             //Updating CustomerLoan in DB and returning updated data
             if (Payment_Data)
             {
-                CustomerLoanDTO_Data.Outstanding_Amount -= PaymentDTO_Data.Amount;
                 
                 CustomerLoanDTO Data = GetMapper().Map<CustomerLoanDTO>(DataAccessFactory.CustomerLoanData().Update(GetMapper().Map<CustomerLoan>(CustomerLoanDTO_Data)));
                 Data.CustomerDTO = CustomerDTO_Data;

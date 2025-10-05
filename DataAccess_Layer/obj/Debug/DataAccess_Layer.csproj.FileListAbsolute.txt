@@ -17,3 +17,4 @@ D:\Codes\Adv .NET\CrediFlow_final\CrediFlow\DataAccess_Layer\obj\Debug\DataAcces
 D:\Codes\Adv .NET\CrediFlow_final\CrediFlow\DataAccess_Layer\obj\Debug\DataAccess_Layer.Migrations.Fix_Customer_Loan_Id_Name.resources
 D:\Codes\Adv .NET\CrediFlow_final\CrediFlow\DataAccess_Layer\obj\Debug\DataAccess_Layer.Migrations.Add_New_Attributes_CustomerLoan.resources
 D:\Codes\Adv .NET\CrediFlow_final\CrediFlow\DataAccess_Layer\obj\Debug\DataAccess_Layer.Migrations.Add_Total_Paid_Amount_into_CustomerLoan.resources
+D:\Codes\Adv .NET\CrediFlow_final\CrediFlow\DataAccess_Layer\obj\Debug\DataAccess_Layer.Migrations.Add_Minimum_Credit_For_Loan_Customer_Status_Loan_Status_End_Date.resources

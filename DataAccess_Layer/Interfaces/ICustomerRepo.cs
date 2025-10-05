@@ -13,7 +13,7 @@ namespace DataAccess_Layer.Interfaces
         Customer Create(Customer s);
         List<Customer> Get();
         Customer Get(int id);
-        bool Update(Customer s);
+        Customer Update(Customer s);
         bool Delete(int id);
 
     }

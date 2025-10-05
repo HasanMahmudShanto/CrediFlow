@@ -30,21 +30,36 @@ namespace BusinessLogic_Layer.Service
 
         public static CustomerLoanDTO Get_Loan(CustomerLoanDTO CustomerLoanDTO_Data)
         {
+            //Getting related data
             var Customer_Data = DataAccessFactory.CustomerData().Get(CustomerLoanDTO_Data.Customer_Id);
             var Loan_Data = DataAccessFactory.LoanData().Get(CustomerLoanDTO_Data.Loan_Id);
 
+            //Null checks
+            if (Customer_Data == null || Loan_Data == null) return null;
+            if (Customer_Data.Credit_Score < Loan_Data.Minimum_Credit_Score) return null;
+
+            //Checking if customer already has an active loan of the same type
+            var Existing_Loans = DataAccessFactory.CustomerLoanData().Check_Existance_Of_Same_Loan(CustomerLoanDTO_Data.Customer_Id, CustomerLoanDTO_Data.Loan_Id);
+            if (Existing_Loans) return null;
+
+            //Populating remaining fields
             CustomerLoanDTO_Data.Loan_Taken_Date = DateTime.Now;
             CustomerLoanDTO_Data.Next_Installment_Date = DateTime.Now.AddMonths(1);
             CustomerLoanDTO_Data.Outstanding_Amount = Get_Outstanding_Amount(CustomerLoanDTO_Data.Loan_Id);
             CustomerLoanDTO_Data.CustomerDTO = GetMapper().Map<CustomerDTO>(Customer_Data);
             CustomerLoanDTO_Data.LoanDTO = GetMapper().Map<LoanDTO>(Loan_Data);
-
+            CustomerLoanDTO_Data.Status = "Active";
             CustomerLoanDTO_Data.Next_Installment_Amount = CustomerLoanDTO_Data.LoanDTO.Installment_Amount;
             CustomerLoanDTO_Data.Total_Paid_Amount = 0.00f;
+            CustomerLoanDTO_Data.Loan_End_Date = CustomerLoanDTO_Data.Loan_Taken_Date.AddMonths(CustomerLoanDTO_Data.LoanDTO.Loan_Duration_Months);
+            
+            //Creating CustomerLoan entry in DB
             CustomerLoanDTO Data = GetMapper().Map<CustomerLoanDTO>(DataAccessFactory.CustomerLoanData().Create(GetMapper().Map<CustomerLoan>(CustomerLoanDTO_Data)));
             Data.CustomerDTO = GetMapper().Map<CustomerDTO>(Customer_Data);
             Data.LoanDTO = GetMapper().Map<LoanDTO>(Loan_Data);
 
+
+            //Creating Notification for the customer
             NotificationDTO Notification_Data = new NotificationDTO
             {
                 CustomerId = Data.Customer_Id,
@@ -54,6 +69,8 @@ namespace BusinessLogic_Layer.Service
                 Message = "Your loan has been successfully issued"
             };
             bool Is_Created = NotificationService.Create(Notification_Data);
+
+            //Returning data if notification is created successfully
             if (Is_Created)
                 return Data;
             return null;
@@ -66,5 +83,7 @@ namespace BusinessLogic_Layer.Service
             Data.CustomerDTO = CustomerService.Get(Data.Customer_Id);
             return Data;
         }
+
+
     }
 }
