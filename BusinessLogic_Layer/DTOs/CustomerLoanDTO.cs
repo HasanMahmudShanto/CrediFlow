@@ -16,6 +16,8 @@ namespace BusinessLogic_Layer.DTOs
         public DateTime Next_Installment_Date { get; set; }
         public float Next_Installment_Amount { get; set; }
         public float Total_Paid_Amount { get; set; }
+        public string Status { get; set; }
+        public DateTime Loan_End_Date { get; set; }
         public LoanDTO LoanDTO { get; set; }
         public CustomerDTO CustomerDTO { get; set; }
 

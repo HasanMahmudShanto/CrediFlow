@@ -15,6 +15,7 @@ namespace DataAccess_Layer.Interfaces
         Loan Get(int id);
         bool Update(Loan s);
         bool Delete(int id);
-        
+        List<Loan> Get_Eligible_Loans(float credit_score);
+
     }
 }

@@ -87,6 +87,10 @@
     <Compile Include="Migrations\202510042022358_Add_Total_Paid_Amount_into_CustomerLoan.Designer.cs">
       <DependentUpon>202510042022358_Add_Total_Paid_Amount_into_CustomerLoan.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202510050857394_Add_Minimum_Credit_For_Loan_Customer_Status_Loan_Status_End_Date.cs" />
+    <Compile Include="Migrations\202510050857394_Add_Minimum_Credit_For_Loan_Customer_Status_Loan_Status_End_Date.Designer.cs">
+      <DependentUpon>202510050857394_Add_Minimum_Credit_For_Loan_Customer_Status_Loan_Status_End_Date.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repos\CustomerLoanRepo.cs" />
@@ -117,6 +121,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202510042022358_Add_Total_Paid_Amount_into_CustomerLoan.resx">
       <DependentUpon>202510042022358_Add_Total_Paid_Amount_into_CustomerLoan.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202510050857394_Add_Minimum_Credit_For_Loan_Customer_Status_Loan_Status_End_Date.resx">
+      <DependentUpon>202510050857394_Add_Minimum_Credit_For_Loan_Customer_Status_Loan_Status_End_Date.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

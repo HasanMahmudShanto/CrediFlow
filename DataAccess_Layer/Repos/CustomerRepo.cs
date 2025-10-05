@@ -42,12 +42,12 @@ namespace DataAccess_Layer.Repos
             return db.Customers.Find(id);
         }
 
-        public bool Update(Customer Customer_Data)
+        public Customer Update(Customer Customer_Data)
         {
             var ex = db.Customers.Find(Customer_Data.Customer_Id);
             db.Entry(ex).CurrentValues.SetValues(Customer_Data);
             db.SaveChanges();
-            return true;
+            return Customer_Data;
         }
     }
 }

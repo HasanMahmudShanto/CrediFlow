@@ -26,5 +26,12 @@ namespace Presentation_Layer.Controllers
             CustomerDTO Data = CustomerService.Register(CustomerDTO_Data);
             return Request.CreateResponse(HttpStatusCode.OK, Data);
         }
+        [HttpGet]
+        [Route("loans/{id}")]
+        public HttpResponseMessage Get_Loans(int id)
+        {
+            List<CustomerLoanDTO> Data = CustomerService.Get_Loans(id);
+            return Request.CreateResponse(HttpStatusCode.OK, Data);
+        }
     }
 }

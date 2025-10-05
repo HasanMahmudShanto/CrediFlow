@@ -16,6 +16,8 @@ namespace DataAccess_Layer.EF.Tables
         public float Credit_Score { get; set; }
         public float Gender { get; set; }
         public string Card_Number { get; set; }
+        public float Monthly_Income { get; set; }
+        public string Status { get; set; }
 
     }
 }
