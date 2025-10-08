@@ -23,11 +23,12 @@ namespace BusinessLogic_Layer.Service
                 {
                     var notification = new NotificationDTO
                     {
-                        CustomerId = loan.Customer_Id,
+                        Customer_Id = loan.Customer_Id,
                         Date = DateTime.Now,
-                        IsRead = false,
+                        Is_Read = false,
                         Title = "Upcoming Installment Due",
-                        Message = $"Your next loan installment is due on {loan.Next_Installment_Date:yyyy-MM-dd}."
+                        Message = $"Your next loan installment is due on {loan.Next_Installment_Date:yyyy-MM-dd}.",
+                        CustomerDTO = loan.CustomerDTO
                     };
                     NotificationService.Create(notification);
                 }
@@ -35,11 +36,12 @@ namespace BusinessLogic_Layer.Service
                 {
                     var notification = new NotificationDTO
                     {
-                        CustomerId = loan.Customer_Id,
+                        Customer_Id = loan.Customer_Id,
                         Date = DateTime.Now,
-                        IsRead = false,
+                        Is_Read = false,
                         Title = "Upcoming Installment Due",
-                        Message = $"Your next loan installment is due on {loan.Next_Installment_Date:yyyy-MM-dd}."
+                        Message = $"Your next loan installment is due on {loan.Next_Installment_Date:yyyy-MM-dd}.",
+                        CustomerDTO = loan.CustomerDTO
                     };
                     NotificationService.Create(notification);
                 }
@@ -47,11 +49,12 @@ namespace BusinessLogic_Layer.Service
                 {
                     var notification = new NotificationDTO
                     {
-                        CustomerId = loan.Customer_Id,
+                        Customer_Id = loan.Customer_Id,
                         Date = DateTime.Now,
-                        IsRead = false,
+                        Is_Read = false,
                         Title = "Upcoming Installment Due",
-                        Message = $"Your next loan installment is due on Today."
+                        Message = $"Your next loan installment is due on Today.",
+                        CustomerDTO = loan.CustomerDTO
                     };
                     NotificationService.Create(notification);
                 }

@@ -55,11 +55,36 @@ namespace BusinessLogic_Layer.Service
             return GetMapper().Map<CustomerDTO>(Data);
         }
 
-        public static CustomerDTO Register(CustomerDTO CustomerDTO_Data)
+
+
+        public static CustomerDTO Create(CustomerDTO CustomerDTO_Data)
         {
+            //Populating remaining fields
             CustomerDTO_Data.Credit_Score = Calculate_Credit_Score(CustomerDTO_Data.Monthly_Income);
             CustomerDTO_Data.Status = Determine_Status(CustomerDTO_Data.Credit_Score);
             var Data = DataAccessFactory.CustomerData().Create(GetMapper().Map<Customer>(CustomerDTO_Data));
+
+            //Creating Notification for the customer
+            var NotificationDTO_Data = new NotificationDTO
+            {
+                Customer_Id = Data.Customer_Id,
+                Title = "Account Created",
+                Message = $"Dear {CustomerDTO_Data.Name},\n\n" +
+                "Welcome to CrediFlow! Your account has been successfully created.\n\n" +
+                "Here are your account details:\n" +
+                $"• Name: {Data.Name}\n" +
+                $"• Email: {Data.Email}\n" +
+                $"• Monthly Income: {Data.Monthly_Income}\n" +
+                $"• Credit Score: {Data.Credit_Score}\n" +
+                $"• Status: {Data.Status}\n\n" +
+                "We’re excited to have you with us. You can now log in and start exploring our services.\n\n" +
+                "Best regards,\nThe CrediFlow Team",
+
+                CustomerDTO = GetMapper().Map<CustomerDTO>(Data)
+            };
+            bool Notification_Data = NotificationService.Create(NotificationDTO_Data);
+
+            if (!Notification_Data) return null;
             return GetMapper().Map<CustomerDTO>(Data);
         }
 
@@ -77,7 +102,25 @@ namespace BusinessLogic_Layer.Service
         {
             CustomerDTO_Data.Status = Determine_Status(CustomerDTO_Data.Credit_Score);
             var Data = DataAccessFactory.CustomerData().Update(GetMapper().Map<Customer>(CustomerDTO_Data));
+
+           
             return GetMapper().Map<CustomerDTO>(Data);
+        }
+        public static bool Delete(int id)
+        {
+            var NotificationDTO_Data = new NotificationDTO
+            {
+                Customer_Id = id,
+                Title = "Profile Deleted",
+                Message = "Dear Customer,\n\n" +
+                "Your CrediFlow profile has been successfully deleted from our system.\n" +
+                "If you did not request this action, please contact our support team immediately to secure your account.\n\n" +
+                "Thank you for being a part of CrediFlow.\n\n" +
+                "Best regards,\nThe CrediFlow Team"
+            };
+            bool Is_Created = NotificationService.Create(NotificationDTO_Data);
+            if (!Is_Created) return false;
+            return DataAccessFactory.CustomerData().Delete(id);
         }
     }
 }

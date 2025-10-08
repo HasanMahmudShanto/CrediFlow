@@ -38,3 +38,6 @@ F:\codes\ASP.NET_Projects\CrediFlow\DataAccess_Layer\obj\Debug\DataAccess_Layer.
 F:\codes\ASP.NET_Projects\CrediFlow\DataAccess_Layer\obj\Debug\DataAcce.8FDCCA1A.Up2Date
 F:\codes\ASP.NET_Projects\CrediFlow\DataAccess_Layer\obj\Debug\DataAccess_Layer.dll
 F:\codes\ASP.NET_Projects\CrediFlow\DataAccess_Layer\obj\Debug\DataAccess_Layer.pdb
+F:\codes\ASP.NET_Projects\CrediFlow\DataAccess_Layer\obj\Debug\DataAccess_Layer.Migrations.Add_Customer_Email_Remove_Loan_InstallementInterval.resources
+F:\codes\ASP.NET_Projects\CrediFlow\DataAccess_Layer\obj\Debug\DataAccess_Layer.Migrations.Update_Penalty_Percentage.resources
+F:\codes\ASP.NET_Projects\CrediFlow\DataAccess_Layer\obj\Debug\DataAccess_Layer.Migrations.Fix_Attribute_names_Notification.resources

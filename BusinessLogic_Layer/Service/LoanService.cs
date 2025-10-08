@@ -46,6 +46,7 @@ namespace BusinessLogic_Layer.Service
                 LoanDTO_Data.Installment_Amount = Calculate_Installment_Amount(LoanDTO_Data.Loan_Amount,
                     LoanDTO_Data.Interest_Percentage,
                     LoanDTO_Data.Loan_Duration_Months);
+          
             }
             else
             {
@@ -69,6 +70,15 @@ namespace BusinessLogic_Layer.Service
                 List<LoanDTO> Eigible_Loans = GetMapper().Map<List<LoanDTO>>(DataAccessFactory.LoanData().Get_Eligible_Loans(CustomerDTO_Data.Credit_Score));
                 return Eigible_Loans;
             }
+        }
+        public static LoanDTO Update(LoanDTO LoanDTO_Data)
+        {
+            var Data = DataAccessFactory.LoanData().Update(GetMapper().Map<Loan>(LoanDTO_Data));
+            return GetMapper().Map<LoanDTO>(Data);
+        }
+        public static bool Delete(int id)
+        {
+            return DataAccessFactory.LoanData().Delete(id);
         }
     }
 }

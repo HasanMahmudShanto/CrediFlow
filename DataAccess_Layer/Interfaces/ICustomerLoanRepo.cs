@@ -16,7 +16,9 @@ namespace DataAccess_Layer.Interfaces
         bool Delete(int id);
         bool Check_Existance_Of_Same_Loan(int customer_id, int loan_id);
         List<CustomerLoan> Get_All_Active_Loans();
+        List<CustomerLoan> Get_All_Closed_Loans();
         List<CustomerLoan> Get_By_Customer(int customer_id);
+        
 
     }
 }

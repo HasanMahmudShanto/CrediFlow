@@ -13,6 +13,7 @@ namespace DataAccess_Layer.EF.Tables
         public int Customer_Id { get; set; }
         public string Name { get; set; }
         public string Address { get; set; }
+        public string Email { get; set; }
         public float Credit_Score { get; set; }
         public float Gender { get; set; }
         public string Card_Number { get; set; }

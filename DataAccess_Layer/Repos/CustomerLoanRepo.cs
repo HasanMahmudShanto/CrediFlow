@@ -62,5 +62,9 @@ namespace DataAccess_Layer.Repos
         {
             return db.CustomerLoans.Where(cl => cl.Status.Equals("Active")).ToList();
         }
+        public List<CustomerLoan> Get_All_Closed_Loans()
+        {
+            return db.CustomerLoans.Where(cl => cl.Status.Equals("Closed")).ToList();
+        }
     }
 }

@@ -44,6 +44,12 @@ namespace BusinessLogic_Layer.Service
 
             //Populating remaining fields
             CustomerLoanDTO_Data.Loan_Taken_Date = DateTime.Now;
+
+            //testing reminder feature for next installment date
+            //CustomerLoanDTO_Data.Next_Installment_Date = DateTime.Now.AddDays(7);
+            //CustomerLoanDTO_Data.Next_Installment_Date = DateTime.Now.AddDays(3);
+            //CustomerLoanDTO_Data.Next_Installment_Date = DateTime.Now;
+
             CustomerLoanDTO_Data.Next_Installment_Date = DateTime.Now.AddMonths(1);
             CustomerLoanDTO_Data.Outstanding_Amount = Get_Outstanding_Amount(CustomerLoanDTO_Data.Loan_Id);
             CustomerLoanDTO_Data.CustomerDTO = GetMapper().Map<CustomerDTO>(Customer_Data);
@@ -62,11 +68,22 @@ namespace BusinessLogic_Layer.Service
             //Creating Notification for the customer
             NotificationDTO Notification_Data = new NotificationDTO
             {
-                CustomerId = Data.Customer_Id,
-                Date = DateTime.Now,
-                IsRead = false,
+                Customer_Id = Data.Customer_Id,
                 Title = "Loan Issued",
-                Message = "Your loan has been successfully issued"
+                Message = $"Dear {Customer_Data.Name},\n\n" +
+                "We’re pleased to inform you that your loan has been successfully issued. Below are the details of your loan:\n\n" +
+                $"• Loan Type: {Data.LoanDTO.Loan_Type}\n" +
+                $"• Loan Amount: {Data.LoanDTO.Loan_Amount:C}\n" +
+                $"• Installment Amount: {Data.LoanDTO.Installment_Amount:C}\n" +
+                $"• Duration: {Data.LoanDTO.Loan_Duration_Months} months\n" +
+                $"• Interest Rate: {Data.LoanDTO.Interest_Percentage}%\n" +
+                $"• Next Installment Date: {Data.Next_Installment_Date:MMMM dd, yyyy}\n" +
+                $"• Next Installment Amount: {Data.Next_Installment_Amount:C}\n" +
+                $"• Total Payable Amount: {(Data.LoanDTO.Installment_Amount * Data.LoanDTO.Loan_Duration_Months):C}\n" +
+                $"• Loan End Date: {Data.Loan_End_Date:MMMM dd, yyyy}\n\n" +
+                "Thank you for choosing CrediFlow. We’re committed to supporting your financial journey.\n\n" +
+                "Best regards,\nThe CrediFlow Team",
+                CustomerDTO = GetMapper().Map<CustomerDTO>(Customer_Data)
             };
             bool Is_Created = NotificationService.Create(Notification_Data);
 
@@ -83,11 +100,41 @@ namespace BusinessLogic_Layer.Service
             Data.CustomerDTO = CustomerService.Get(Data.Customer_Id);
             return Data;
         }
+        public static List <CustomerLoanDTO> Get()
+        {
+            List <CustomerLoanDTO> Data = GetMapper().Map<List<CustomerLoanDTO>>(DataAccessFactory.CustomerLoanData().Get());
+            foreach(var item in Data)
+            {
+                item.LoanDTO = LoanService.Get(item.Loan_Id);
+                item.CustomerDTO = CustomerService.Get(item.Customer_Id);
+            }
+                
+            return Data;
+        }
 
         public static List<CustomerLoanDTO> Get_All_Active_Loans()
         {
             List<CustomerLoanDTO> Data = GetMapper().Map<List<CustomerLoanDTO>>(DataAccessFactory.CustomerLoanData().Get_All_Active_Loans());
             return Data;
+        }
+
+        public static List<CustomerLoanDTO> Get_All_Closed_Loans()
+        {
+            List<CustomerLoanDTO> Data = GetMapper().Map<List<CustomerLoanDTO>>(DataAccessFactory.CustomerLoanData().Get_All_Closed_Loans());
+            return Data;
+
+        }
+
+        public static CustomerLoanDTO Update(CustomerLoanDTO customerLoanDTO_Data)
+        {
+            var Data = DataAccessFactory.CustomerLoanData().Update(GetMapper().Map<CustomerLoan>(customerLoanDTO_Data));
+            return GetMapper().Map<CustomerLoanDTO>(Data);
+
+        }
+
+        public static bool Delete(int id)
+        {
+            return DataAccessFactory.CustomerLoanData().Delete(id);
         }
     }
 }

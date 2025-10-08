@@ -16,8 +16,8 @@ namespace DataAccess_Layer.EF.Tables
         public string Message { get; set; }
         public DateTime Date { get; set; }
         [ForeignKey("Customer")]
-        public int CustomerId { get; set; }
-        public bool IsRead { get; set; }
+        public int Customer_Id { get; set; }
+        public bool Is_Read { get; set; }
 
         public virtual Customer Customer { get; set; }
     }
