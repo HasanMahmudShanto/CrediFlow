@@ -96,43 +96,20 @@ namespace BusinessLogic_Layer.Service
             PaymentDTO_Data.CustomerLoanDTO = CustomerLoanDTO_Data; 
             PaymentDTO_Data.Amount = CustomerLoanDTO_Data.Next_Installment_Amount;
 
-            //force late payment for testing
-           // CustomerLoanDTO_Data.Next_Installment_Date = CustomerLoanDTO_Data.Next_Installment_Date.AddMonths(-12);
-
-            // Late fee calculation
-            float Late_Fee = 0.00f;
+           
+            
             if(CustomerLoanDTO_Data.Next_Installment_Date - DateTime.Now >= TimeSpan.Zero) // On-time payment
             {
                 if(CustomerDTO_Data.Status == "Restricted") //Re-activating restricted customers
                 {
-                    Late_Fee = 0.00f;
                     CustomerDTO_Data.Credit_Score = 300; // Reset credit score upon re-activation
                     CustomerDTO_Data.Status = "Poor";
                 }
                 else // Normal Monthly Installment Payment
                 {
-                    Late_Fee = 0.00f;
                     CustomerDTO_Data.Credit_Score += 20; // Increase credit score for on-time payment
                 }
             }
-            else // Late payment
-            {
-                if(CustomerDTO_Data.Status == "Restricted") // Restricted customers making late payments (Terminate them)
-                {
-                    Terminate_Customer(CustomerDTO_Data, CustomerLoanDTO_Data);
-
-                    //Returning null as the customer is terminated
-                    return null;
-                }
-                else // Normal Monthly Installment Payment
-                {
-                    Late_Fee = (LoanDTO_Data.Penalty_Percentage/100) * PaymentDTO_Data.CustomerLoanDTO.LoanDTO.Installment_Amount; // 10% late fee on monthly installment
-                    CustomerDTO_Data.Credit_Score -= 25; // Decrease credit score for late payment
-
-
-                }
-            }
-
             //Ensuring credit score remains within bounds
             if (CustomerDTO_Data.Credit_Score > 900) CustomerDTO_Data.Credit_Score = 900;
             else if (CustomerDTO_Data.Credit_Score < 0) CustomerDTO_Data.Credit_Score = 0;
@@ -163,8 +140,7 @@ namespace BusinessLogic_Layer.Service
             else //If loan is not fully paid, setting up next installment date and amount
             {
                 CustomerLoanDTO_Data.Next_Installment_Date = CustomerLoanDTO_Data.Next_Installment_Date.AddMonths(1);
-                CustomerLoanDTO_Data.Next_Installment_Amount = CustomerLoanDTO_Data.LoanDTO.Installment_Amount + Late_Fee;
-                CustomerLoanDTO_Data.Outstanding_Amount += Late_Fee;
+                CustomerLoanDTO_Data.Next_Installment_Amount = CustomerLoanDTO_Data.LoanDTO.Installment_Amount;
                 CustomerLoanDTO_Data.Total_Paid_Amount += PaymentDTO_Data.Amount;
             }
 
@@ -197,7 +173,8 @@ namespace BusinessLogic_Layer.Service
                     (Data.Status == "Closed"
                         ? "Congratulations! Your loan has been fully paid off. Thank you for your commitment and trust in CrediFlow.\n\n"
                         : "Thank you for your timely payment. We appreciate your continued trust in CrediFlow.\n\n") +
-                        "Best regards,\nThe CrediFlow Team"
+                        "Best regards,\nThe CrediFlow Team",
+                    CustomerDTO = CustomerDTO_Data
                 };
                 
                 bool Notification_Data = NotificationService.Create(NotificationDTO_Data);

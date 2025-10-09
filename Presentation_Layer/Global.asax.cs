@@ -14,7 +14,7 @@ namespace Presentation_Layer
             GlobalConfiguration.Configure(WebApiConfig.Register);
             // Call the method to check and send reminders when the application starts
             BusinessLogic_Layer.Service.ReminderService.Get_Reminders();
-
+            BusinessLogic_Layer.Service.LateFeeService.Apply_Late_Fee();
         }
     }
 }
