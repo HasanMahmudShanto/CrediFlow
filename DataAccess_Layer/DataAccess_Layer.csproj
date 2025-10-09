@@ -91,6 +91,22 @@
     <Compile Include="Migrations\202510050857394_Add_Minimum_Credit_For_Loan_Customer_Status_Loan_Status_End_Date.Designer.cs">
       <DependentUpon>202510050857394_Add_Minimum_Credit_For_Loan_Customer_Status_Loan_Status_End_Date.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202510070822004_Add_Customer_Email_Remove_Loan_InstallementInterval.cs" />
+    <Compile Include="Migrations\202510070822004_Add_Customer_Email_Remove_Loan_InstallementInterval.Designer.cs">
+      <DependentUpon>202510070822004_Add_Customer_Email_Remove_Loan_InstallementInterval.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202510070823398_Update_Penalty_Percentage.cs" />
+    <Compile Include="Migrations\202510070823398_Update_Penalty_Percentage.Designer.cs">
+      <DependentUpon>202510070823398_Update_Penalty_Percentage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202510071714472_Fix_Attribute_names_Notification.cs" />
+    <Compile Include="Migrations\202510071714472_Fix_Attribute_names_Notification.Designer.cs">
+      <DependentUpon>202510071714472_Fix_Attribute_names_Notification.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202510092000337_Remove_Payment_Type.cs" />
+    <Compile Include="Migrations\202510092000337_Remove_Payment_Type.Designer.cs">
+      <DependentUpon>202510092000337_Remove_Payment_Type.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repos\CustomerLoanRepo.cs" />
@@ -124,6 +140,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202510050857394_Add_Minimum_Credit_For_Loan_Customer_Status_Loan_Status_End_Date.resx">
       <DependentUpon>202510050857394_Add_Minimum_Credit_For_Loan_Customer_Status_Loan_Status_End_Date.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202510070822004_Add_Customer_Email_Remove_Loan_InstallementInterval.resx">
+      <DependentUpon>202510070822004_Add_Customer_Email_Remove_Loan_InstallementInterval.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202510070823398_Update_Penalty_Percentage.resx">
+      <DependentUpon>202510070823398_Update_Penalty_Percentage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202510071714472_Fix_Attribute_names_Notification.resx">
+      <DependentUpon>202510071714472_Fix_Attribute_names_Notification.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202510092000337_Remove_Payment_Type.resx">
+      <DependentUpon>202510092000337_Remove_Payment_Type.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -12,8 +12,8 @@ namespace BusinessLogic_Layer.DTOs
         public string Title { get; set; }
         public string Message { get; set; }
         public DateTime Date { get; set; }
-        public int CustomerId { get; set; }
-        public bool IsRead { get; set; }
+        public int Customer_Id { get; set; }
+        public bool Is_Read { get; set; }
         public CustomerDTO CustomerDTO { get; set; }
 
     }

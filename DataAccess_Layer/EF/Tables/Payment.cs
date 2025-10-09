@@ -18,7 +18,6 @@ namespace DataAccess_Layer.EF.Tables
         [ForeignKey("CustomerLoan")]
         public int Customer_Loan_Id { get; set; }
         public float Amount { get; set; }
-        public string Type { get; set; } 
 
 
         public virtual CustomerLoan CustomerLoan { get; set; }

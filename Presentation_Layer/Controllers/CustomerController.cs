@@ -16,22 +16,119 @@ namespace Presentation_Layer.Controllers
         [Route("all")]
         public HttpResponseMessage Get()
         {
-            var Data = CustomerService.Get();
-            return Request.CreateResponse(HttpStatusCode.OK, Data);
+            try
+            {
+                var Data = CustomerService.Get();
+                return Request.CreateResponse(HttpStatusCode.OK, Data);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
         }
         [HttpPost]
-        [Route("register")]
-        public HttpResponseMessage Register(CustomerDTO CustomerDTO_Data)
+        [Route("create")]
+        public HttpResponseMessage Create(CustomerDTO CustomerDTO_Data)
         {
-            CustomerDTO Data = CustomerService.Register(CustomerDTO_Data);
-            return Request.CreateResponse(HttpStatusCode.OK, Data);
+            try
+            {
+
+                CustomerDTO Data = CustomerService.Create(CustomerDTO_Data);
+                return Request.CreateResponse(HttpStatusCode.OK, Data);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
         }
         [HttpGet]
-        [Route("loans/{id}")]
+        [Route("customer_loans/{id}")]
         public HttpResponseMessage Get_Loans(int id)
         {
-            List<CustomerLoanDTO> Data = CustomerService.Get_Loans(id);
-            return Request.CreateResponse(HttpStatusCode.OK, Data);
+            try
+            {
+                List<CustomerLoanDTO> Data = CustomerService.Get_Loans(id);
+                if (Data == null)
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Customer not found.");
+                }
+                else
+                {
+                    return Request.CreateResponse(HttpStatusCode.OK, Data);
+                }
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+        [HttpGet]
+        [Route("customer/{id}")]
+        public HttpResponseMessage Get(int id)
+        {
+            try
+            {
+                var Data = CustomerService.Get(id);
+                if (Data == null)
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Customer not found.");
+                }
+                else
+                {
+                    return Request.CreateResponse(HttpStatusCode.OK, Data);
+                }
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+        [HttpPost]
+        [Route("update")]
+        public HttpResponseMessage Update(CustomerDTO CustomerDTO_Data)
+        {
+            try
+            {
+
+                CustomerDTO Data = CustomerService.Update(CustomerDTO_Data);
+                if (Data == null)
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Customer not found.");
+                }
+                else
+                {
+                    return Request.CreateResponse(HttpStatusCode.OK, Data);
+                }
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+        [HttpPost]
+        [Route("delete/{id}")]
+        public HttpResponseMessage Delete(int id)
+        {
+            try
+            {
+                var customer = CustomerService.Get(id);
+                if (customer == null)
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Customer not found.");
+                }
+                else
+                {
+                    bool isDeleted = CustomerService.Delete(id);
+                    if (isDeleted)
+                        return Request.CreateResponse(HttpStatusCode.OK, "Customer deleted successfully.");
+                    else
+                        return Request.CreateResponse(HttpStatusCode.InternalServerError, "Failed to delete customer.");
+                }
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
         }
     }
 }

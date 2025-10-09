@@ -14,5 +14,7 @@ namespace DataAccess_Layer.Interfaces
         Payment Get(int id);
         bool Update(Payment s);
         bool Delete(int id);
+        List<Payment> Get_By_Customer_Loan(int Customer_Loan_Id, int Customer_Id);
+        List<Payment> Get_By_Customer(int Customer_Id);
     }
 }

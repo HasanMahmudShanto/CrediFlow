@@ -18,3 +18,27 @@ D:\Codes\Adv .NET\CrediFlow_final\CrediFlow\DataAccess_Layer\obj\Debug\DataAcces
 D:\Codes\Adv .NET\CrediFlow_final\CrediFlow\DataAccess_Layer\obj\Debug\DataAccess_Layer.Migrations.Add_New_Attributes_CustomerLoan.resources
 D:\Codes\Adv .NET\CrediFlow_final\CrediFlow\DataAccess_Layer\obj\Debug\DataAccess_Layer.Migrations.Add_Total_Paid_Amount_into_CustomerLoan.resources
 D:\Codes\Adv .NET\CrediFlow_final\CrediFlow\DataAccess_Layer\obj\Debug\DataAccess_Layer.Migrations.Add_Minimum_Credit_For_Loan_Customer_Status_Loan_Status_End_Date.resources
+F:\codes\ASP.NET_Projects\CrediFlow\DataAccess_Layer\bin\Debug\DataAccess_Layer.dll.config
+F:\codes\ASP.NET_Projects\CrediFlow\DataAccess_Layer\bin\Debug\DataAccess_Layer.dll
+F:\codes\ASP.NET_Projects\CrediFlow\DataAccess_Layer\bin\Debug\DataAccess_Layer.pdb
+F:\codes\ASP.NET_Projects\CrediFlow\DataAccess_Layer\bin\Debug\EntityFramework.dll
+F:\codes\ASP.NET_Projects\CrediFlow\DataAccess_Layer\bin\Debug\EntityFramework.SqlServer.dll
+F:\codes\ASP.NET_Projects\CrediFlow\DataAccess_Layer\bin\Debug\EntityFramework.xml
+F:\codes\ASP.NET_Projects\CrediFlow\DataAccess_Layer\bin\Debug\EntityFramework.SqlServer.xml
+F:\codes\ASP.NET_Projects\CrediFlow\DataAccess_Layer\obj\Debug\DataAccess_Layer.csproj.AssemblyReference.cache
+F:\codes\ASP.NET_Projects\CrediFlow\DataAccess_Layer\obj\Debug\DataAccess_Layer.Migrations.Initialize_database.resources
+F:\codes\ASP.NET_Projects\CrediFlow\DataAccess_Layer\obj\Debug\DataAccess_Layer.Migrations.Add_Notification_Table.resources
+F:\codes\ASP.NET_Projects\CrediFlow\DataAccess_Layer\obj\Debug\DataAccess_Layer.Migrations.Add_Payment_Table.resources
+F:\codes\ASP.NET_Projects\CrediFlow\DataAccess_Layer\obj\Debug\DataAccess_Layer.Migrations.Fix_Customer_Loan_Id_Name.resources
+F:\codes\ASP.NET_Projects\CrediFlow\DataAccess_Layer\obj\Debug\DataAccess_Layer.Migrations.Add_New_Attributes_CustomerLoan.resources
+F:\codes\ASP.NET_Projects\CrediFlow\DataAccess_Layer\obj\Debug\DataAccess_Layer.Migrations.Add_Total_Paid_Amount_into_CustomerLoan.resources
+F:\codes\ASP.NET_Projects\CrediFlow\DataAccess_Layer\obj\Debug\DataAccess_Layer.Migrations.Add_Minimum_Credit_For_Loan_Customer_Status_Loan_Status_End_Date.resources
+F:\codes\ASP.NET_Projects\CrediFlow\DataAccess_Layer\obj\Debug\DataAccess_Layer.csproj.GenerateResource.cache
+F:\codes\ASP.NET_Projects\CrediFlow\DataAccess_Layer\obj\Debug\DataAccess_Layer.csproj.CoreCompileInputs.cache
+F:\codes\ASP.NET_Projects\CrediFlow\DataAccess_Layer\obj\Debug\DataAcce.8FDCCA1A.Up2Date
+F:\codes\ASP.NET_Projects\CrediFlow\DataAccess_Layer\obj\Debug\DataAccess_Layer.dll
+F:\codes\ASP.NET_Projects\CrediFlow\DataAccess_Layer\obj\Debug\DataAccess_Layer.pdb
+F:\codes\ASP.NET_Projects\CrediFlow\DataAccess_Layer\obj\Debug\DataAccess_Layer.Migrations.Add_Customer_Email_Remove_Loan_InstallementInterval.resources
+F:\codes\ASP.NET_Projects\CrediFlow\DataAccess_Layer\obj\Debug\DataAccess_Layer.Migrations.Update_Penalty_Percentage.resources
+F:\codes\ASP.NET_Projects\CrediFlow\DataAccess_Layer\obj\Debug\DataAccess_Layer.Migrations.Fix_Attribute_names_Notification.resources
+F:\codes\ASP.NET_Projects\CrediFlow\DataAccess_Layer\obj\Debug\DataAccess_Layer.Migrations.Remove_Payment_Type.resources

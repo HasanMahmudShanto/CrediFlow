@@ -46,6 +46,7 @@ namespace BusinessLogic_Layer.Service
                 LoanDTO_Data.Installment_Amount = Calculate_Installment_Amount(LoanDTO_Data.Loan_Amount,
                     LoanDTO_Data.Interest_Percentage,
                     LoanDTO_Data.Loan_Duration_Months);
+          
             }
             else
             {
@@ -69,6 +70,39 @@ namespace BusinessLogic_Layer.Service
                 List<LoanDTO> Eigible_Loans = GetMapper().Map<List<LoanDTO>>(DataAccessFactory.LoanData().Get_Eligible_Loans(CustomerDTO_Data.Credit_Score));
                 return Eigible_Loans;
             }
+        }
+
+        public static LoanDTO Merge_Update(LoanDTO loanDTO, LoanDTO Prev_Data)
+        {
+            if(loanDTO.Loan_Type == null) loanDTO.Loan_Type = Prev_Data.Loan_Type;
+            if(loanDTO.Loan_Duration_Months == 0) loanDTO.Loan_Duration_Months = Prev_Data.Loan_Duration_Months;
+            if(loanDTO.Interest_Percentage == 0) loanDTO.Interest_Percentage = Prev_Data.Interest_Percentage;
+            if(loanDTO.Penalty_Percentage == 0) loanDTO.Penalty_Percentage = Prev_Data.Penalty_Percentage;
+            if(loanDTO.Loan_Amount == 0) loanDTO.Loan_Amount = Prev_Data.Loan_Amount;
+            if(loanDTO.Minimum_Credit_Score == 0) loanDTO.Minimum_Credit_Score = Prev_Data.Minimum_Credit_Score;
+            if(loanDTO.Loan_Type != "Re-Activation Loan")
+            {
+                loanDTO.Installment_Amount = Calculate_Installment_Amount(loanDTO.Loan_Amount,
+                    loanDTO.Interest_Percentage,
+                    loanDTO.Loan_Duration_Months);
+            }
+            else
+            {
+                loanDTO.Installment_Amount = loanDTO.Loan_Amount;
+            }
+            return loanDTO;
+        }
+
+        public static LoanDTO Update(LoanDTO LoanDTO_Data)
+        {
+            LoanDTO Prev_Data = Get(LoanDTO_Data.Loan_Id);
+            LoanDTO_Data = Merge_Update(LoanDTO_Data, Prev_Data);
+            var Data = DataAccessFactory.LoanData().Update(GetMapper().Map<Loan>(LoanDTO_Data));
+            return GetMapper().Map<LoanDTO>(Data);
+        }
+        public static bool Delete(int id)
+        {
+            return DataAccessFactory.LoanData().Delete(id);
         }
     }
 }

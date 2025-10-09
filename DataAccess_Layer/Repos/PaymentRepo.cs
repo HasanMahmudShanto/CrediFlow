@@ -48,5 +48,13 @@ namespace DataAccess_Layer.Repos
             db.SaveChanges();
             return true;
         }
+        public List<Payment> Get_By_Customer_Loan(int Customer_Loan_Id, int Customer_Id)
+        {
+            return db.Payments.Where(e => e.Customer_Loan_Id == Customer_Loan_Id && e.Customer_Id == Customer_Id).ToList();
+        }
+        public List<Payment> Get_By_Customer(int Customer_Id)
+        {
+            return db.Payments.Where(e => e.Customer_Id == Customer_Id).ToList();
+        }
     }
 }

@@ -14,5 +14,6 @@ namespace DataAccess_Layer.Interfaces
         Notification Get(int id);
         bool Update(Notification s);
         bool Delete(int id);
+        List<Notification> Get_By_Customer(int customer_id);
     }
 }

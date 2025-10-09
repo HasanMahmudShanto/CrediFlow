@@ -48,5 +48,9 @@ namespace DataAccess_Layer.Repos
             db.SaveChanges();
             return true;
         }
+        public List<Notification> Get_By_Customer(int customer_id)
+        {
+            return db.Notifications.Where(n => n.Customer_Id == customer_id).ToList();
+        }
     }
 }
