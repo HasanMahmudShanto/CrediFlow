@@ -105,7 +105,6 @@ namespace BusinessLogic_Layer.Service
             {
                 if(CustomerDTO_Data.Status == "Restricted") //Re-activating restricted customers
                 {
-                    CustomerDTO_Data.Status = "Active";
                     Late_Fee = 0.00f;
                     CustomerDTO_Data.Credit_Score = 300; // Reset credit score upon re-activation
                     CustomerDTO_Data.Status = "Poor";
@@ -145,7 +144,7 @@ namespace BusinessLogic_Layer.Service
 
             //If there are some decimals left due to float calculations,
             //we consider the loan fully paid if outstanding amount is less than 1 currency unit
-            if (CustomerLoanDTO_Data.Outstanding_Amount < 1.00f && CustomerLoanDTO_Data.Outstanding_Amount > 0.00f) 
+            if (CustomerLoanDTO_Data.Outstanding_Amount < 1.00f) 
                 CustomerLoanDTO_Data.Outstanding_Amount = 0.00f;
 
 
@@ -200,6 +199,8 @@ namespace BusinessLogic_Layer.Service
                         : "Thank you for your timely payment. We appreciate your continued trust in CrediFlow.\n\n") +
                         "Best regards,\nThe CrediFlow Team"
                 };
+                
+                bool Notification_Data = NotificationService.Create(NotificationDTO_Data);
 
                 return Data;
             }
@@ -228,8 +229,20 @@ namespace BusinessLogic_Layer.Service
             var Data = DataAccessFactory.PaymentData().Create(GetMapper().Map<Payment>(PaymentDTO_Data));
             return GetMapper().Map<PaymentDTO>(Data);
         }
+
+        public static PaymentDTO Merge_Update(PaymentDTO PaymentDTO_Data, PaymentDTO Prev_Data)
+        {
+            if(PaymentDTO_Data.Customer_Id == 0) PaymentDTO_Data.Customer_Id = Prev_Data.Customer_Id;
+            if (PaymentDTO_Data.Customer_Loan_Id == 0) PaymentDTO_Data.Customer_Loan_Id = Prev_Data.Customer_Loan_Id;
+            if (PaymentDTO_Data.Amount == 0.00f) PaymentDTO_Data.Amount = Prev_Data.Amount;
+            if (PaymentDTO_Data.Payment_Date == DateTime.MinValue) PaymentDTO_Data.Payment_Date = Prev_Data.Payment_Date;
+            return PaymentDTO_Data;
+        }
+
         public static PaymentDTO Update(PaymentDTO PaymentDTO_Data)
         {
+            PaymentDTO Prev_Data = Get(PaymentDTO_Data.Payment_Id);
+            PaymentDTO_Data = Merge_Update(PaymentDTO_Data, Prev_Data);
             var Data = DataAccessFactory.PaymentData().Update(GetMapper().Map<Payment>(PaymentDTO_Data));
             return GetMapper().Map<PaymentDTO>(Data);
         }

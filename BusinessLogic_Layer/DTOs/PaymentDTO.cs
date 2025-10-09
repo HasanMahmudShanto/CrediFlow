@@ -13,7 +13,6 @@ namespace BusinessLogic_Layer.DTOs
         public int Customer_Id { get; set; }
         public int Customer_Loan_Id { get; set; }
         public float Amount { get; set; }
-        public string Type { get; set; }
         public CustomerDTO CustomerDTO { get; set; }
         public CustomerLoanDTO CustomerLoanDTO { get; set; }
     }

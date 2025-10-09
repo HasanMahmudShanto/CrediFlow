@@ -28,6 +28,8 @@ namespace BusinessLogic_Layer.Service
             NotificationDTO_Data.Date = DateTime.Now;
             NotificationDTO_Data.Is_Read = false;
 
+            bool is_sent = Send_Mail(NotificationDTO_Data);
+
             bool is_Create = DataAccessFactory.NotificationData().Create(GetMapper().Map<Notification>(NotificationDTO_Data));
             return is_Create;
         }
@@ -105,6 +107,25 @@ namespace BusinessLogic_Layer.Service
         public static bool Delete(int id)
         {
             return DataAccessFactory.NotificationData().Delete(id);
+        }
+
+        public static NotificationDTO Merge_Update(NotificationDTO NotificationDTO_Data, NotificationDTO Prev_Data)
+        {
+            if(NotificationDTO_Data.Title == null) NotificationDTO_Data.Title = Prev_Data.Title;
+            if(NotificationDTO_Data.Message == null) NotificationDTO_Data.Message = Prev_Data.Message;
+            if(NotificationDTO_Data.Date == null) NotificationDTO_Data.Date = Prev_Data.Date;
+            if(NotificationDTO_Data.Date == DateTime.MinValue) NotificationDTO_Data.Date = Prev_Data.Date;
+            if (NotificationDTO_Data.Customer_Id == 0) NotificationDTO_Data.Customer_Id = Prev_Data.Customer_Id;
+            return NotificationDTO_Data;
+
+        }
+
+        public static bool Update(NotificationDTO NotificationDTO_Data)
+        {
+            var Prev_Data = Get(NotificationDTO_Data.Notification_Id);
+            if (Prev_Data == null) return false;
+            NotificationDTO_Data = Merge_Update(NotificationDTO_Data, Prev_Data);
+            return DataAccessFactory.NotificationData().Update(GetMapper().Map<Notification>(NotificationDTO_Data));
         }
     }
 }

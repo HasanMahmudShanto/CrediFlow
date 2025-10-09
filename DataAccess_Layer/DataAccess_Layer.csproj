@@ -103,6 +103,10 @@
     <Compile Include="Migrations\202510071714472_Fix_Attribute_names_Notification.Designer.cs">
       <DependentUpon>202510071714472_Fix_Attribute_names_Notification.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202510092000337_Remove_Payment_Type.cs" />
+    <Compile Include="Migrations\202510092000337_Remove_Payment_Type.Designer.cs">
+      <DependentUpon>202510092000337_Remove_Payment_Type.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repos\CustomerLoanRepo.cs" />
@@ -145,6 +149,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202510071714472_Fix_Attribute_names_Notification.resx">
       <DependentUpon>202510071714472_Fix_Attribute_names_Notification.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202510092000337_Remove_Payment_Type.resx">
+      <DependentUpon>202510092000337_Remove_Payment_Type.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

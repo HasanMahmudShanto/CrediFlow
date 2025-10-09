@@ -41,3 +41,4 @@ F:\codes\ASP.NET_Projects\CrediFlow\DataAccess_Layer\obj\Debug\DataAccess_Layer.
 F:\codes\ASP.NET_Projects\CrediFlow\DataAccess_Layer\obj\Debug\DataAccess_Layer.Migrations.Add_Customer_Email_Remove_Loan_InstallementInterval.resources
 F:\codes\ASP.NET_Projects\CrediFlow\DataAccess_Layer\obj\Debug\DataAccess_Layer.Migrations.Update_Penalty_Percentage.resources
 F:\codes\ASP.NET_Projects\CrediFlow\DataAccess_Layer\obj\Debug\DataAccess_Layer.Migrations.Fix_Attribute_names_Notification.resources
+F:\codes\ASP.NET_Projects\CrediFlow\DataAccess_Layer\obj\Debug\DataAccess_Layer.Migrations.Remove_Payment_Type.resources

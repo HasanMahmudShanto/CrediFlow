@@ -98,9 +98,26 @@ namespace BusinessLogic_Layer.Service
             };
             return Data;
         }
+
+        public static CustomerDTO Merge_Update(CustomerDTO CustomerDTO_Data, CustomerDTO Prev_Data)
+        {
+            //Checking changes in the updated data, if no changes then save previous data as the updated one
+            if (string.IsNullOrEmpty(CustomerDTO_Data.Name)) CustomerDTO_Data.Name = Prev_Data.Name;
+            if (string.IsNullOrEmpty(CustomerDTO_Data.Email)) CustomerDTO_Data.Email = Prev_Data.Email;
+            if(string.IsNullOrEmpty(CustomerDTO_Data.Card_Number)) CustomerDTO_Data.Card_Number = Prev_Data.Card_Number;
+            if (string.IsNullOrEmpty(CustomerDTO_Data.Address)) CustomerDTO_Data.Address = Prev_Data.Address;
+            if (CustomerDTO_Data.Monthly_Income == 0) CustomerDTO_Data.Monthly_Income = Prev_Data.Monthly_Income;
+            if (CustomerDTO_Data.Credit_Score == 0) CustomerDTO_Data.Credit_Score = Prev_Data.Credit_Score;
+            if (string.IsNullOrEmpty(CustomerDTO_Data.Status)) CustomerDTO_Data.Status = Prev_Data.Status;
+            return CustomerDTO_Data;
+        }
+
         public static CustomerDTO Update(CustomerDTO CustomerDTO_Data)
         {
             CustomerDTO_Data.Status = Determine_Status(CustomerDTO_Data.Credit_Score);
+            var Prev_Data = Get(CustomerDTO_Data.Customer_Id);
+            if (Prev_Data == null) return null;
+            CustomerDTO_Data = Merge_Update(CustomerDTO_Data, Prev_Data);
             var Data = DataAccessFactory.CustomerData().Update(GetMapper().Map<Customer>(CustomerDTO_Data));
 
            
