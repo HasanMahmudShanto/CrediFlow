@@ -73,13 +73,13 @@ namespace BusinessLogic_Layer.Service
                 Message = $"Dear {Customer_Data.Name},\n\n" +
                 "We’re pleased to inform you that your loan has been successfully issued. Below are the details of your loan:\n\n" +
                 $"• Loan Type: {Data.LoanDTO.Loan_Type}\n" +
-                $"• Loan Amount: {Data.LoanDTO.Loan_Amount:C}\n" +
-                $"• Installment Amount: {Data.LoanDTO.Installment_Amount:C}\n" +
+                $"• Loan Amount: {Data.LoanDTO.Loan_Amount}\n" +
+                $"• Installment Amount: {Data.LoanDTO.Installment_Amount}\n" +
                 $"• Duration: {Data.LoanDTO.Loan_Duration_Months} months\n" +
                 $"• Interest Rate: {Data.LoanDTO.Interest_Percentage}%\n" +
                 $"• Next Installment Date: {Data.Next_Installment_Date:MMMM dd, yyyy}\n" +
-                $"• Next Installment Amount: {Data.Next_Installment_Amount:C}\n" +
-                $"• Total Payable Amount: {(Data.LoanDTO.Installment_Amount * Data.LoanDTO.Loan_Duration_Months):C}\n" +
+                $"• Next Installment Amount: {Data.Next_Installment_Amount}\n" +
+                $"• Total Payable Amount: {(Data.LoanDTO.Installment_Amount * Data.LoanDTO.Loan_Duration_Months)}\n" +
                 $"• Loan End Date: {Data.Loan_End_Date:MMMM dd, yyyy}\n\n" +
                 "Thank you for choosing CrediFlow. We’re committed to supporting your financial journey.\n\n" +
                 "Best regards,\nThe CrediFlow Team",
@@ -115,12 +115,22 @@ namespace BusinessLogic_Layer.Service
         public static List<CustomerLoanDTO> Get_All_Active_Loans()
         {
             List<CustomerLoanDTO> Data = GetMapper().Map<List<CustomerLoanDTO>>(DataAccessFactory.CustomerLoanData().Get_All_Active_Loans());
+            foreach (var item in Data)
+            {
+                item.LoanDTO = LoanService.Get(item.Loan_Id);
+                item.CustomerDTO = CustomerService.Get(item.Customer_Id);
+            }
             return Data;
         }
 
         public static List<CustomerLoanDTO> Get_All_Closed_Loans()
         {
             List<CustomerLoanDTO> Data = GetMapper().Map<List<CustomerLoanDTO>>(DataAccessFactory.CustomerLoanData().Get_All_Closed_Loans());
+            foreach (var item in Data)
+            {
+                item.LoanDTO = LoanService.Get(item.Loan_Id);
+                item.CustomerDTO = CustomerService.Get(item.Customer_Id);
+            }
             return Data;
 
         }

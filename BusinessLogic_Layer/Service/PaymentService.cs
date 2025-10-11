@@ -115,6 +115,7 @@ namespace BusinessLogic_Layer.Service
             else if (CustomerDTO_Data.Credit_Score < 0) CustomerDTO_Data.Credit_Score = 0;
 
 
+
             //Updating CustomerLoanDTO_Data
 
             CustomerLoanDTO_Data.Outstanding_Amount -= PaymentDTO_Data.Amount;
@@ -164,12 +165,12 @@ namespace BusinessLogic_Layer.Service
                     Title = "Payment Received",
                     Message = $"Dear {CustomerDTO_Data.Name},\n\n" +
                     "We’re pleased to confirm that your recent payment has been received successfully. Here are the details of your transaction:\n\n" +
-                    $"Payment Amount: {PaymentDTO_Data.Amount:C}\n" +
+                    $"Payment Amount: {PaymentDTO_Data.Amount}\n" +
                     $"Payment Date: {PaymentDTO_Data.Payment_Date:MMMM dd, yyyy}\n" +
                     $"Loan Type: {Data.LoanDTO.Loan_Type}\n" +
                     $"Next Installment Date: {(Data.Status == "Closed" ? "N/A — Loan Fully Paid" : Data.Next_Installment_Date.ToString("MMMM dd, yyyy"))}\n" +
                     $"Next Installment Amount: {(Data.Status == "Closed" ? "N/A — Loan Fully Paid" : Data.Next_Installment_Amount.ToString("C"))}\n" +
-                    $"Outstanding Amount: {Data.Outstanding_Amount:C}\n\n" +
+                    $"Outstanding Amount: {Data.Outstanding_Amount}\n\n" +
                     (Data.Status == "Closed"
                         ? "Congratulations! Your loan has been fully paid off. Thank you for your commitment and trust in CrediFlow.\n\n"
                         : "Thank you for your timely payment. We appreciate your continued trust in CrediFlow.\n\n") +

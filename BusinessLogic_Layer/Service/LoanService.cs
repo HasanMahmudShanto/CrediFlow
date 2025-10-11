@@ -51,6 +51,10 @@ namespace BusinessLogic_Layer.Service
             else
             {
                 LoanDTO_Data.Installment_Amount = LoanDTO_Data.Loan_Amount;
+                LoanDTO_Data.Loan_Duration_Months = 1; //Re-Activation loan duration is 1 month
+                LoanDTO_Data.Interest_Percentage = 0; //Re-Activation loan has no interest
+                LoanDTO_Data.Penalty_Percentage = 0; //Re-Activation loan has no penalty
+                LoanDTO_Data.Minimum_Credit_Score = 200.0f;
             }
             var Data = DataAccessFactory.LoanData().Create(GetMapper().Map<Loan>(LoanDTO_Data));
             return GetMapper().Map<LoanDTO>(Data);
