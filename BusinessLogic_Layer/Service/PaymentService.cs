@@ -169,7 +169,7 @@ namespace BusinessLogic_Layer.Service
                     $"Payment Date: {PaymentDTO_Data.Payment_Date:MMMM dd, yyyy}\n" +
                     $"Loan Type: {Data.LoanDTO.Loan_Type}\n" +
                     $"Next Installment Date: {(Data.Status == "Closed" ? "N/A — Loan Fully Paid" : Data.Next_Installment_Date.ToString("MMMM dd, yyyy"))}\n" +
-                    $"Next Installment Amount: {(Data.Status == "Closed" ? "N/A — Loan Fully Paid" : Data.Next_Installment_Amount.ToString("C"))}\n" +
+                    $"Next Installment Amount: {(Data.Status == "Closed" ? "N/A — Loan Fully Paid" : Data.Next_Installment_Amount.ToString())}\n" +
                     $"Outstanding Amount: {Data.Outstanding_Amount}\n\n" +
                     (Data.Status == "Closed"
                         ? "Congratulations! Your loan has been fully paid off. Thank you for your commitment and trust in CrediFlow.\n\n"
