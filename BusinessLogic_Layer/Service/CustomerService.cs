@@ -133,7 +133,8 @@ namespace BusinessLogic_Layer.Service
                 "Your CrediFlow profile has been successfully deleted from our system.\n" +
                 "If you did not request this action, please contact our support team immediately to secure your account.\n\n" +
                 "Thank you for being a part of CrediFlow.\n\n" +
-                "Best regards,\nThe CrediFlow Team"
+                "Best regards,\nThe CrediFlow Team",
+                CustomerDTO = GetMapper().Map<CustomerDTO>(Get(id))
             };
             bool Is_Created = NotificationService.Create(NotificationDTO_Data);
             if (!Is_Created) return false;

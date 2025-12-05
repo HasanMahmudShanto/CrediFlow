@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "New Profile",
+    "Projects": [
+      {
+        "Path": "Presentation_Layer\\Presentation_Layer.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "Presentation_Layer_MVC\\Presentation_Layer_MVC.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]
