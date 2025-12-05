@@ -98,6 +98,30 @@ namespace Presentation_Layer.Controllers
             
         }
         [HttpPost]
+        [Route("update")]
+        public HttpResponseMessage Update(BusinessLogic_Layer.DTOs.NotificationDTO NotificationDTO_Data)
+        {
+            try
+            {
+                bool is_Update = BusinessLogic_Layer.Service.NotificationService.Update(NotificationDTO_Data);
+                if (is_Update)
+                {
+                    return Request.CreateResponse(HttpStatusCode.OK, "Notification updated successfully.");
+                }
+                else
+                {
+                    return Request.CreateResponse(HttpStatusCode.InternalServerError, "Failed to update notification.");
+                }
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, "An error occurred: " + ex.Message);
+            }
+        }
+
+
+
+        [HttpPost]
         [Route("delete/{id}")]
         public HttpResponseMessage Delete(int id)
         {

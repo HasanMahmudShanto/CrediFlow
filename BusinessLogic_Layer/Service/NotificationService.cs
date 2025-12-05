@@ -27,6 +27,7 @@ namespace BusinessLogic_Layer.Service
         {
             NotificationDTO_Data.Date = DateTime.Now;
             NotificationDTO_Data.Is_Read = false;
+            NotificationDTO_Data.CustomerDTO = GetMapper().Map<CustomerDTO>(CustomerService.Get(NotificationDTO_Data.Customer_Id));
 
             bool is_sent = Send_Mail(NotificationDTO_Data);
 
@@ -72,13 +73,19 @@ namespace BusinessLogic_Layer.Service
 
         public static List<NotificationDTO> Get()
         {
-            var NotificationDTO_Data = DataAccessFactory.NotificationData().Get();
-            return GetMapper().Map<List<NotificationDTO>>(NotificationDTO_Data);
+            List<NotificationDTO> NotificationDTO_Data = GetMapper().Map<List<NotificationDTO>>(DataAccessFactory.NotificationData().Get());
+            foreach(var notification in NotificationDTO_Data)
+            {
+                var customer = CustomerService.Get(notification.Customer_Id);
+                notification.CustomerDTO = GetMapper().Map<CustomerDTO>(customer);
+            }
+            return NotificationDTO_Data;
         }
         public static NotificationDTO Get(int id)
         {
-            var NotificationDTO_Data = DataAccessFactory.NotificationData().Get(id);
-            return GetMapper().Map<NotificationDTO>(NotificationDTO_Data);
+            NotificationDTO NotificationDTO_Data = GetMapper().Map<NotificationDTO>(DataAccessFactory.NotificationData().Get(id));
+            NotificationDTO_Data.CustomerDTO = GetMapper().Map<CustomerDTO>(CustomerService.Get(NotificationDTO_Data.Customer_Id));
+            return NotificationDTO_Data;
         }
         public static List<NotificationDTO> Get_By_Customer(int customer_id)
         {
@@ -89,6 +96,8 @@ namespace BusinessLogic_Layer.Service
             {
                 if(notification.Is_Read == false)
                 {
+                    var customer = CustomerService.Get(notification.Customer_Id);
+                    notification.CustomerDTO = GetMapper().Map<CustomerDTO>(customer);
                     notification.Is_Read = true;
                     DataAccessFactory.NotificationData().Update(GetMapper().Map<Notification>(notification));
                 }
