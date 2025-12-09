@@ -126,9 +126,6 @@ function CheckValidation(isEditMode) {
     
     const customerId = $("#Customer_Id").val();
 
-    if (!title) {
-        syncErrors.push("Title is required.");
-    }
     // ... (rest of synchronous checks: Message, isValidDate) ...
     if (!title) { syncErrors.push("Title is required."); }
     if (!message) { syncErrors.push("Message cannot be empty."); }

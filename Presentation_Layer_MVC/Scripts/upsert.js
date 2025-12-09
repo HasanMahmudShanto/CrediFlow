@@ -78,6 +78,61 @@ function saveCustomer(isEditMode, customerId) {
     });
 }
 
+function CheckValidation(isEditMode) {
+    let SyncError = [];
+
+    //create page
+    const name = $("#Name").val().trim();
+    const email = $("#Email").val().trim();
+    const cardNumber = $("#Card_Number").val().trim();
+    const monthlyIncome = $("#Monthly_Income").val().trim();
+    const gender = $('input[name="GenderOption"]:checked').val();
+    const address = $("#Address").val().trim();
+
+    //edit page
+    if (isEditMode) {
+        const status = $("#Status").val().trim();
+        const creditScore = $("#Credit_Score").val().trim();
+    }
+
+    //validation
+    if (!name) {
+        SyncError.push("Name is required.");
+    }
+    if (!email) {
+        SyncError.push("Email is required.");
+    }
+    if (!cardNumber) {
+        SyncError.push("Card Number is required.");
+    }
+    if (!monthlyIncome || isNaN(monthlyIncome) || parseFloat(monthlyIncome) <= 0) {
+        SyncError.push("Monthly Income must be a positive number.");
+    }
+    if (!gender) {
+        SyncError.push("You must select a gender");
+    }
+    if (!address) {
+        SyncError.push("Address is required.");
+    }
+    if (isEditMode) {
+        if(!status) {
+            SyncError.push("Status is required.");
+        }
+        if(!creditScore || isNaN(creditScore) || parseFloat(creditScore) < 0) {
+            SyncError.push("Credit Score must be a non-negative number.");
+        }
+    }
+    return new Promise((resolve, reject) => {
+        if (SyncError.length > 0) {
+            resolve(SyncError);
+            return;
+        }
+    });
+
+
+
+}
+
 // --- 3. DOM Ready Initialization ---
 $(document).ready(function () {
     const customerId = $("#CustomerId").val();
@@ -93,10 +148,25 @@ $(document).ready(function () {
         loadCustomerData(customerId);
     } 
 
+
     // 2. Attach Submission Handler
     $("#customerUpsertForm").on("submit", function (e) {
         e.preventDefault();
         // Pass the calculated mode and ID to the save function
-        saveCustomer(isEditMode, customerId);
+        CheckValidation(isEditMode).then(errors => {
+            if (error.length > 0) {
+                const errorList = $("#errorList");
+                errorList.empty();
+                errors.forEach(function (error) {
+                    let li = document.createElement('li');
+                    li.textContent = error;
+                    errorList.append(li);
+                })
+                $('#validationModal').modal('show');
+            }
+            else {
+                saveCustomer(isEditMode, customerId);
+            }
+        });
     });
 });
