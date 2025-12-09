@@ -17,7 +17,7 @@ function displayNotification(data) {
                 <td>${notification.Customer_Id}</td>
                 <td>${notification.Is_Read}</td>
                 <td>
-                    <a href="${upsertUrlBase}?id=${notification.Notification_Id}" class="btn btn-sm btn-warning">Edit</a> |
+                    <a href="${upsertUrlBase}?id=${notification.Notification_Id}" class="btn btn-sm btn-info">Edit</a> |
                     <button class="btn btn-sm btn-danger delete-button" onclick="DeleteNotification(${notification.Notification_Id})" data-id="${notification.Notification_Id}">Delete</button>
                 </td>
             </tr>`;

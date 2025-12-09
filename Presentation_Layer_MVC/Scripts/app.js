@@ -19,7 +19,7 @@ function displayCustomers(customers) {
                 <td><span class="badge badge-primary">${customer.Status}</span></td>
                 <td>${customer.Email}</td>
                 <td>
-                    <a href="${upsertUrlBase}?id=${customer.Customer_Id}" class="btn btn-sm btn-warning">Edit</a> |
+                    <a href="${upsertUrlBase}?id=${customer.Customer_Id}" class="btn btn-sm btn-info">Edit</a>
                     <button class="btn btn-sm btn-danger delete-button" onclick="DeleteCustomer(${customer.Customer_Id})" data-id="${customer.Customer_Id}">Delete</button>
                 </td>
              </tr>`;
