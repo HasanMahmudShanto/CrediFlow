@@ -44,11 +44,13 @@ function saveNotification(isEditMode, notificationId) {
         "Message": $("#Message").val(),
         // Note: Recipient is missing from the form/payload
         "Is_Read": $("#Is_Read").is(':checked'),
-        "Date": $("#Date").val(),
+        
         // Ensure Customer_Id is a number if API expects it
         "Customer_Id": parseInt($("#Customer_Id").val(), 10)
     };
-
+    if (isEditMode) {
+        notificationData.Date = $("#Date").val();
+    }
     // 2. Perform AJAX call
     $.ajax({
         type: "POST",
@@ -57,7 +59,7 @@ function saveNotification(isEditMode, notificationId) {
         data: JSON.stringify(notificationData),
         success: function (response) {
             alert("Notification " + (isEditMode ? "updated" : "created") + " successfully!");
-            window.location.href = window.redirectUrl; // Use window.redirectUrl
+            window.location.href = redirectUrl; // Use window.redirectUrl
         },
         error: function (xhr) {
             alert("Error saving notification. See console.");
@@ -80,48 +82,84 @@ function isValidDate(dateString) {
     return !isNaN(dateObject.getTime());
 }
 
-function CheckCustomerAvailability(customerId) {
-    $.ajax({
-        type: "GET",
-        url: API_BASE_URL + "/customer/" + customerId,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        success: function (data) {
-            return true; // Customer exists
-        },
-        error: function (xhr) {
-            return false; // Customer does not exist
-        }
-    });
+// Scripts/Notification_upsert.js
 
+function CheckCustomerAvailability(customerId) {
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            type: "GET",
+            url: API_BASE_URL + "/customer/customer/" + customerId, // Ensure the URL is correct
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+
+            // --- CHECK THE DATA CONTENT ON SUCCESS ---
+            success: function (data) {
+                // If the data object is NOT null or NOT undefined, the customer exists.
+                if (data && data.Customer_Id && data.Customer_Id === parseInt(customerId)) {
+                    resolve(true); // Customer exists: SUCCESS
+                } else {
+                    // API returned 200 OK but with null/empty data (Customer not found)
+                    resolve(false);
+                }
+            },
+
+            // --- HANDLE TRUE ERROR (e.g., 404, 500) ---
+            error: function (xhr) {
+                // If we get an actual HTTP error (404, 500), assume the customer does not exist
+                // or there's a problem with the API itself.
+                resolve(false);
+            }
+        });
+    });
 }
 
 
 // CheckValidation function now returns an array of errors
-function CheckValidation() {
-    let errors = [];
+function CheckValidation(isEditMode) {
+    let syncErrors = [];
 
-    // NOTE: Use the correct case-sensitive IDs from your Upsert.cshtml!
+    // --- SYNCHRONOUS CHECKS ---
     const title = $("#Title").val().trim();
     const message = $("#Message").val().trim();
-    const dateVal = $("#Date").val();
+    if (isEditMode){ const dateVal = $("#Date").val(); }
+        
+    
     const customerId = $("#Customer_Id").val();
 
     if (!title) {
-        errors.push("Title is required.");
+        syncErrors.push("Title is required.");
     }
-    if (!message) {
-        errors.push("Message cannot be empty.");
+    // ... (rest of synchronous checks: Message, isValidDate) ...
+    if (!title) { syncErrors.push("Title is required."); }
+    if (!message) { syncErrors.push("Message cannot be empty."); }
+    if (isEditMode) {
+        if (!isValidDate(dateVal)) { syncErrors.push("Please select a valid Date and Time."); }
     }
-    if (!isValidDate(dateVal)) {
-        errors.push("Please select a valid Date and Time.");
-    }
-    // Check if ID is present and is a positive number
-    if (CheckCustomerAvailability(customerId)) {
-        errors.push("A valid Customer ID is required.");
+   
+    if (!customerId || isNaN(parseInt(customerId)) || parseInt(customerId) <= 0) {
+        syncErrors.push("A Customer ID is required.");
     }
 
-    return errors;
+    // --- ASYNCHRONOUS CHECK (Customer Existence) ---
+    // Return a Promise that wraps the async customer availability check
+    return new Promise((resolve) => {
+
+        // If there are SYNC errors, resolve immediately with the errors array
+        if (syncErrors.length > 0) {
+            resolve(syncErrors);
+            return;
+        }
+
+        // If no SYNC errors, run the ASYNC check
+        CheckCustomerAvailability(customerId).then(customerExists => {
+            if (!customerExists) {
+                // If customer does NOT exist, add an error
+                syncErrors.push("The entered Customer ID does not exist.");
+            }
+            // Resolve the promise with the final list of errors
+            resolve(syncErrors);
+        });
+    });
 }
 
 
@@ -137,23 +175,25 @@ $(document).ready(function () {
     $("#NotificationUpsertForm").submit(function (event) {
         event.preventDefault(); // Stop default form submission
 
-        const errors = CheckValidation(); // Run validation first
+        // Call the validation function and wait for the Promise to resolve
+        CheckValidation(isEditMode).then(errors => {
+            if (errors.length > 0) {
+                // Display errors in the modal (Same code as before)
+                const errorList = document.getElementById('errorList');
+                errorList.innerHTML = "";
+                errors.forEach(function (error) {
+                    let li = document.createElement('li');
+                    li.textContent = error;
+                    errorList.appendChild(li);
+                });
+                $('#validationModal').modal('show');
 
-        if (errors.length > 0) {
-            // Display errors in the modal
-            const errorList = document.getElementById('errorList');
-            errorList.innerHTML = "";
-            errors.forEach(function (error) {
-                let li = document.createElement('li');
-                li.textContent = error;
-                errorList.appendChild(li);
-            });
-            // Show the Bootstrap Modal (ID: validationModal)
-            $('#validationModal').modal('show');
-
-        } else {
-            // Validation Passed: Proceed with AJAX call
-            saveNotification(isEditMode, notificationId);
-        }
+            } else {
+                // Validation Passed: Proceed with AJAX call
+                const notificationId = parseInt($("#Notification_Id").val(), 10);
+                const isEditMode = notificationId > 0;
+                saveNotification(isEditMode, notificationId);
+            }
+        });
     });
 });
