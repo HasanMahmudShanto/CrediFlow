@@ -21,7 +21,7 @@ function loadNotificationData(id) {
             // $("#Recipient").val(notification.Recipient); 
             $("#Is_Read").prop('checked', notification.Is_Read);
             $("#Date").val(formatToDateTimeLocal(notification.Date));
-            $("#Customer_Id").val(notification.Customer_Id);
+            $("#CustomerSelect").val(notification.Customer_Id);
         },
         error: function (xhr) {
             alert("Error loading notification data for editing. Check API status.");
@@ -44,9 +44,9 @@ function saveNotification(isEditMode, notificationId) {
         "Message": $("#Message").val(),
         // Note: Recipient is missing from the form/payload
         "Is_Read": $("#Is_Read").is(':checked'),
-        
+
         // Ensure Customer_Id is a number if API expects it
-        "Customer_Id": parseInt($("#Customer_Id").val(), 10)
+        "Customer_Id": parseInt($("#CustomerSelect").val(), 10)
     };
     if (isEditMode) {
         notificationData.Date = $("#Date").val();
@@ -59,7 +59,7 @@ function saveNotification(isEditMode, notificationId) {
         data: JSON.stringify(notificationData),
         success: function (response) {
             alert("Notification " + (isEditMode ? "updated" : "created") + " successfully!");
-            window.location.href = redirectUrl; // Use window.redirectUrl
+            window.location.href = window.redirectUrl; // Use window.redirectUrl
         },
         error: function (xhr) {
             alert("Error saving notification. See console.");
@@ -68,6 +68,39 @@ function saveNotification(isEditMode, notificationId) {
     });
 }
 
+
+// Scripts/Notification_upsert.js
+
+function loadCustomerDropdown() {
+
+    $.ajax({
+        type: "GET",
+        url: API_BASE_URL + "/customer/all",
+        dataType: "json",
+        success: function (customers) {
+            const $dropdown = $("#CustomerSelect");
+
+            // Clear any existing options, keeping the default "Select..." option
+            $dropdown.find('option:not(:first)').remove();
+
+            $.each(customers, function (index, customer) {
+                // The VALUE will be the Customer_Id (what the API needs)
+                // The TEXT will be the Name (what the user sees)
+                const option = `<option value="${customer.Customer_Id}">${customer.Name} (ID: ${customer.Customer_Id})</option>`;
+                $dropdown.append(option);
+            });
+
+            // If in Edit mode, re-select the customer after the list is populated
+            if (window.isEditMode) {
+                loadNotificationData(window.notificationId);
+            }
+        },
+        error: function (xhr) {
+            console.error("Failed to load customer list for dropdown:", xhr.responseText);
+            $("#CustomerSelect").append('<option value="">Error loading customers</option>');
+        }
+    });
+}
 
 function isValidDate(dateString) {
     if (!dateString) {
@@ -95,7 +128,7 @@ function CheckCustomerAvailability(customerId) {
             // --- CHECK THE DATA CONTENT ON SUCCESS ---
             success: function (data) {
                 // If the data object is NOT null or NOT undefined, the customer exists.
-                if (data && data.Customer_Id && data.Customer_Id === parseInt(customerId)) {
+                if (data && data.Customer_Id && data.Customer_Id === parseInt(customerId, 10)) {
                     resolve(true); // Customer exists: SUCCESS
                 } else {
                     // API returned 200 OK but with null/empty data (Customer not found)
@@ -121,20 +154,25 @@ function CheckValidation(isEditMode) {
     // --- SYNCHRONOUS CHECKS ---
     const title = $("#Title").val().trim();
     const message = $("#Message").val().trim();
-    if (isEditMode){ const dateVal = $("#Date").val(); }
-        
-    
-    const customerId = $("#Customer_Id").val();
+
+    // FIX 1: Declare dateVal outside the if block so it's always accessible
+    let dateVal = null;
+    if (isEditMode) {
+        dateVal = $("#Date").val();
+    }
+
+    const customerId = $("#CustomerSelect").val();
 
     // ... (rest of synchronous checks: Message, isValidDate) ...
     if (!title) { syncErrors.push("Title is required."); }
     if (!message) { syncErrors.push("Message cannot be empty."); }
+
     if (isEditMode) {
         if (!isValidDate(dateVal)) { syncErrors.push("Please select a valid Date and Time."); }
     }
-   
-    if (!customerId || isNaN(parseInt(customerId)) || parseInt(customerId) <= 0) {
-        syncErrors.push("A Customer ID is required.");
+
+    if (!customerId || isNaN(parseInt(customerId, 10))) {
+        syncErrors.push("Please select a customer name.");
     }
 
     // --- ASYNCHRONOUS CHECK (Customer Existence) ---
@@ -161,19 +199,19 @@ function CheckValidation(isEditMode) {
 
 
 $(document).ready(function () {
-    const notificationId = parseInt($("#Notification_Id").val(), 10);
-    const isEditMode = notificationId > 0;
+    // FIX 2: Correct scope of global variables
+    window.notificationId = parseInt($("#Notification_Id").val(), 10) || 0;
+    window.isEditMode = window.notificationId > 0; // Use window.isEditMode consistently
 
-    if (isEditMode) {
-        loadNotificationData(notificationId);
-    }
+    loadCustomerDropdown();
+
 
     // Attach form submission handler
     $("#NotificationUpsertForm").submit(function (event) {
         event.preventDefault(); // Stop default form submission
 
         // Call the validation function and wait for the Promise to resolve
-        CheckValidation(isEditMode).then(errors => {
+        CheckValidation(window.isEditMode).then(errors => { // FIX 3: Pass window.isEditMode
             if (errors.length > 0) {
                 // Display errors in the modal (Same code as before)
                 const errorList = document.getElementById('errorList');

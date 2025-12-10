@@ -14,7 +14,17 @@ function loadCustomerData(id) {
             $("#Email").val(customer.Email);
             $("#Card_Number").val(customer.Card_Number);
             $("#Monthly_Income").val(customer.Monthly_Income);
+            const genderValueFromAPI = customer.Gender;
 
+            // CRITICAL FIX: Use .toFixed(1) to force the number to have one decimal place (e.g., 1 -> "1.0")
+            // This ensures the string matches the HTML attribute value="1.0"
+            const genderString = parseFloat(genderValueFromAPI).toFixed(1);
+
+            // Diagnostic log check
+            console.log("FIXED Gender String:", "'" + genderString + "'");
+
+            // Use the consistently formatted string in the selector
+            $(`input[name="GenderOption"][value="${genderString}"]`).prop('checked', true);
             // NOTE: Status and Credit_Score fields should be hidden or disabled if they are system-generated
             // However, since you included them in the Edit form[cite: 5], we load them:
             $("#Status").val(customer.Status);
@@ -88,11 +98,18 @@ function CheckValidation(isEditMode) {
     const monthlyIncome = $("#Monthly_Income").val().trim();
     const gender = $('input[name="GenderOption"]:checked').val();
     const address = $("#Address").val().trim();
+    let status = null;
+    let creditScore = null;
+    //email format check
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (email && !emailPattern.test(email)) {
+        SyncError.push("Email format is invalid.");
+    }
 
     //edit page
     if (isEditMode) {
-        const status = $("#Status").val().trim();
-        const creditScore = $("#Credit_Score").val().trim();
+        status = $("#Status").val();
+        creditScore = $("#Credit_Score").val().trim();
     }
 
     //validation
@@ -102,8 +119,8 @@ function CheckValidation(isEditMode) {
     if (!email) {
         SyncError.push("Email is required.");
     }
-    if (!cardNumber) {
-        SyncError.push("Card Number is required.");
+    if (!cardNumber || isNaN(cardNumber) || parseFloat(cardNumber)<= 0) {
+        SyncError.push("A valid Card Number is required.");
     }
     if (!monthlyIncome || isNaN(monthlyIncome) || parseFloat(monthlyIncome) <= 0) {
         SyncError.push("Monthly Income must be a positive number.");
@@ -154,7 +171,7 @@ $(document).ready(function () {
         e.preventDefault();
         // Pass the calculated mode and ID to the save function
         CheckValidation(isEditMode).then(errors => {
-            if (error.length > 0) {
+            if (errors.length > 0) {
                 const errorList = $("#errorList");
                 errorList.empty();
                 errors.forEach(function (error) {
