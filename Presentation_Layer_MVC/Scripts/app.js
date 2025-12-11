@@ -16,7 +16,7 @@ function displayCustomers(customers) {
                 <td>${customer.Address}</td>
                 <td>${customer.Card_Number}</td>
                 <td>$${customer.Monthly_Income.toFixed(2)}</td>
-                <td><span class="badge badge-primary">${customer.Status}</span></td>
+                <td>${customer.Status}</td>
                 <td>${customer.Email}</td>
                 <td>
                     <a href="${upsertUrlBase}?id=${customer.Customer_Id}" class="btn btn-sm btn-info">Edit</a>
