@@ -12,10 +12,6 @@ function displayCustomers(customers) {
                 <td>${customer.Customer_Id}</td>
                 <td>${customer.Name}</td>
                 <td>${customer.Credit_Score}</td>
-                <td>${customer.Gender}</td>
-                <td>${customer.Address}</td>
-                <td>${customer.Card_Number}</td>
-                <td>$${customer.Monthly_Income.toFixed(2)}</td>
                 <td>${customer.Status}</td>
                 <td>${customer.Email}</td>
                 <td>
@@ -34,7 +30,7 @@ function displayCustomers(customers) {
 function GetAllCustomers() {
     $.ajax({
         type: "GET",
-        url: API_BASE_URL + "/customer/all",
+        url: API_BASE_URL + "/customer/allpartial",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (data) {

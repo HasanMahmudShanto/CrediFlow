@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BusinessLogic_Layer.DTOs;
+using BusinessLogic_Layer.Service;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -18,6 +20,28 @@ namespace Presentation_Layer.Controllers
             {
 
                 var Data = BusinessLogic_Layer.Service.NotificationService.Get();
+                if(Data == null || Data.Count == 0)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "No notifications found.");
+                }
+                else
+                {
+                    return Request.CreateResponse(HttpStatusCode.OK, Data);
+                }
+            }
+            catch(Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, "An error occurred: " + ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("allpartial")]
+        public HttpResponseMessage Get_Partial()
+        {
+            try
+            {
+                var Data = BusinessLogic_Layer.Service.NotificationService.GetPartial();
                 if(Data == null || Data.Count == 0)
                 {
                     return Request.CreateResponse(HttpStatusCode.NotFound, "No notifications found.");
@@ -74,52 +98,69 @@ namespace Presentation_Layer.Controllers
             {
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, "An error occurred: " + ex.Message);
             }
-        } 
+        }
         [HttpPost]
         [Route("create")]
-        public HttpResponseMessage Create(BusinessLogic_Layer.DTOs.NotificationDTO NotificationDTO_Data)
+        public HttpResponseMessage Create(NotificationDTO NotificationDTO_Data)
         {
+            
+            if (!ModelState.IsValid)
+            {
+                
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+            }
+
+            // Original Logic (Only runs if DTO is valid)
             try
             {
-                bool is_Create = BusinessLogic_Layer.Service.NotificationService.Create(NotificationDTO_Data);
+                bool is_Create = NotificationService.Create(NotificationDTO_Data);
                 if (is_Create)
                 {
                     return Request.CreateResponse(HttpStatusCode.OK, "Notification created successfully.");
                 }
                 else
                 {
+                    // Internal error in the service/data access layer
                     return Request.CreateResponse(HttpStatusCode.InternalServerError, "Failed to create notification.");
                 }
             }
             catch (Exception ex)
             {
+                // Catch unexpected exceptions
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, "An error occurred: " + ex.Message);
             }
-            
         }
         [HttpPost]
         [Route("update")]
-        public HttpResponseMessage Update(BusinessLogic_Layer.DTOs.NotificationDTO NotificationDTO_Data)
+        public HttpResponseMessage Update(NotificationDTO NotificationDTO_Data)
         {
+            
+            if (!ModelState.IsValid)
+            {
+                
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+            }
+
+            // Original Logic (Only runs if DTO is valid)
             try
             {
-                bool is_Update = BusinessLogic_Layer.Service.NotificationService.Update(NotificationDTO_Data);
+                bool is_Update = NotificationService.Update(NotificationDTO_Data);
                 if (is_Update)
                 {
                     return Request.CreateResponse(HttpStatusCode.OK, "Notification updated successfully.");
                 }
                 else
                 {
+                    // Internal error or update failed (e.g., ID not found)
                     return Request.CreateResponse(HttpStatusCode.InternalServerError, "Failed to update notification.");
                 }
             }
             catch (Exception ex)
             {
+                // Catch unexpected exceptions
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, "An error occurred: " + ex.Message);
             }
         }
-
-
 
         [HttpPost]
         [Route("delete/{id}")]

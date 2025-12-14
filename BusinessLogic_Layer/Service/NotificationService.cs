@@ -20,6 +20,7 @@ namespace BusinessLogic_Layer.Service
             var config = new MapperConfiguration(cfg => {
                 cfg.CreateMap<Notification, NotificationDTO>().ReverseMap();
                 cfg.CreateMap<Customer, CustomerDTO>().ReverseMap();
+                cfg.CreateMap<Notification, NotificationPartialDTO>().ReverseMap();
             });
             return new Mapper(config);
         }
@@ -80,6 +81,17 @@ namespace BusinessLogic_Layer.Service
                 notification.CustomerDTO = GetMapper().Map<CustomerDTO>(customer);
             }
             return NotificationDTO_Data;
+        }
+
+        public static List<NotificationPartialDTO> GetPartial()
+        {
+            List<NotificationPartialDTO> NotificationPartialDTO_Data = GetMapper().Map<List<NotificationPartialDTO>>(DataAccessFactory.NotificationData().Get());
+            foreach (var notification in NotificationPartialDTO_Data)
+            {
+                var customer = CustomerService.Get(notification.Customer_Id);
+                notification.CustomerDTO = GetMapper().Map<CustomerDTO>(customer);
+            }
+            return NotificationPartialDTO_Data;
         }
         public static NotificationDTO Get(int id)
         {

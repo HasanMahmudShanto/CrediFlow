@@ -40,3 +40,4 @@ D:\Codes\Adv .NET\CrediFlow_final\CrediFlow_frontend\BusinessLogic_Layer\obj\Deb
 D:\Codes\Adv .NET\CrediFlow_final\CrediFlow_frontend\BusinessLogic_Layer\obj\Debug\Business.1799225A.Up2Date
 D:\Codes\Adv .NET\CrediFlow_final\CrediFlow_frontend\BusinessLogic_Layer\obj\Debug\BusinessLogic_Layer.dll
 D:\Codes\Adv .NET\CrediFlow_final\CrediFlow_frontend\BusinessLogic_Layer\obj\Debug\BusinessLogic_Layer.pdb
+F:\codes\ASP.NET_Projects\CrediFlow\BusinessLogic_Layer\bin\Debug\System.ComponentModel.Annotations.dll

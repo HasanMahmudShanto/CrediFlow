@@ -21,9 +21,13 @@ namespace BusinessLogic_Layer.Service
                 cfg.CreateMap<Loan, LoanDTO>().ReverseMap();
                 cfg.CreateMap<Notification, NotificationDTO>().ReverseMap();
                 cfg.CreateMap<Payment, PaymentDTO>().ReverseMap();
+                cfg.CreateMap<Customer, CustomerPartialDTO>().ReverseMap();
             });
             return new Mapper(config);
         }
+
+
+        
 
         public static float Calculate_Credit_Score(float Monthly_Income)
         {
@@ -47,6 +51,13 @@ namespace BusinessLogic_Layer.Service
         {
             var Data = DataAccessFactory.CustomerData().Get();
             return GetMapper().Map<List<CustomerDTO>>(Data);
+        }
+
+        public static List<CustomerPartialDTO> GetPartial() {
+            
+            var Data = DataAccessFactory.CustomerData().Get();
+            
+            return GetMapper().Map<List<CustomerPartialDTO>>(Data);
         }
         
         public static CustomerDTO Get(int id)

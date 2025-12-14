@@ -28,13 +28,38 @@ namespace Presentation_Layer.Controllers
                 return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
+
+        [HttpGet]
+        [Route("allpartial")]
+        public HttpResponseMessage Get_Partial()
+        {
+            try
+            {
+                var Data = CustomerService.GetPartial();
+                return Request.CreateResponse(HttpStatusCode.OK, Data);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+
         [HttpPost]
         [Route("create")]
         public HttpResponseMessage Create(CustomerDTO CustomerDTO_Data)
         {
+            
+            if (!ModelState.IsValid)
+            {
+                // If DTO rules are violated, immediately return a 400 Bad Request 
+                // with the error details.
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+            }
+
+            // --- ONLY PROCEED IF VALIDATION PASSED ---
             try
             {
-
                 CustomerDTO Data = CustomerService.Create(CustomerDTO_Data);
                 return Request.CreateResponse(HttpStatusCode.OK, Data);
             }
@@ -43,6 +68,7 @@ namespace Presentation_Layer.Controllers
                 return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
+
         [HttpGet]
         [Route("customer_loans/{id}")]
         public HttpResponseMessage Get_Loans(int id)
@@ -89,12 +115,20 @@ namespace Presentation_Layer.Controllers
         [Route("update")]
         public HttpResponseMessage Update(CustomerDTO CustomerDTO_Data)
         {
+            if (!ModelState.IsValid)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+            }
+
+            //Original Logic (Only runs if DTO is valid)
             try
             {
-
                 CustomerDTO Data = CustomerService.Update(CustomerDTO_Data);
+
                 if (Data == null)
                 {
+                    // This handles cases where the CustomerService determined the ID provided 
+                    // in CustomerDTO_Data does not exist in the database.
                     return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Customer not found.");
                 }
                 else
@@ -104,6 +138,7 @@ namespace Presentation_Layer.Controllers
             }
             catch (Exception ex)
             {
+                // Handle unexpected service or database exceptions
                 return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
