@@ -42,57 +42,57 @@ namespace BusinessLogic_Layer.Service
             return true;
         }
 
-        public static void TerminateCustomer(CustomerDTO CustomerDTO_Data, CustomerLoanDTO CustomerLoanDTO_Data)
+        public static void TerminateCustomer(CustomerDTO CustomerDTOData, CustomerLoanDTO CustomerLoanDTOData)
         {
-            CustomerDTO_Data.Status = "Terminated"; // If restricted, then terminate the customer
-            CustomerDTO_Data.Credit_Score = 0; // Reset credit score upon termination
+            CustomerDTOData.Status = "Terminated"; // If restricted, then terminate the customer
+            CustomerDTOData.Credit_Score = 0; // Reset credit score upon termination
             //populating customer loan data
-            CustomerLoanDTO_Data.Status = "Closed";
-            CustomerLoanDTO_Data.Next_Installment_Amount = 0.00f;
+            CustomerLoanDTOData.Status = "Closed";
+            CustomerLoanDTOData.Next_Installment_Amount = 0.00f;
             // No next installment date if loan is fully paid so we put it max as in maxValue means no more active
-            CustomerLoanDTO_Data.Next_Installment_Date = DateTime.MaxValue;
-            CustomerLoanDTO_Data.Total_Paid_Amount = 0;
-            CustomerLoanDTO_Data.Loan_End_Date = DateTime.Now;
+            CustomerLoanDTOData.Next_Installment_Date = DateTime.MaxValue;
+            CustomerLoanDTOData.Total_Paid_Amount = 0;
+            CustomerLoanDTOData.Loan_End_Date = DateTime.Now;
             //Updating CustomerLoan in DB and returning updated data
-            CustomerLoanDTO Data = GetMapper().Map<CustomerLoanDTO>(DataAccessFactory.CustomerLoanData().Update(GetMapper().Map<CustomerLoan>(CustomerLoanDTO_Data)));
-            Data.CustomerDTO = CustomerDTO_Data;
-            Data.LoanDTO = LoanService.Get(CustomerLoanDTO_Data.Loan_Id);
+            CustomerLoanDTO Data = GetMapper().Map<CustomerLoanDTO>(DataAccessFactory.CustomerLoanData().Update(GetMapper().Map<CustomerLoan>(CustomerLoanDTOData)));
+            Data.CustomerDTO = CustomerDTOData;
+            Data.LoanDTO = LoanService.Get(CustomerLoanDTOData.Loan_Id);
 
             //Creating Notification for the customer
             var NotificationDTO_Data = new NotificationDTO
             {
-                Customer_Id = CustomerDTO_Data.Customer_Id,
+                Customer_Id = CustomerDTOData.Customer_Id,
                 Title = "Account Terminated",
-                Message = $"Dear {CustomerDTO_Data.Name},\n\n" +
+                Message = $"Dear {CustomerDTOData.Name},\n\n" +
                 "We regret to inform you that your account has been terminated due to non-payment of your loan installments and low credit score. " +
                 "Despite previous notifications, we have not received the required payments.\n\n" +
                 "If you believe this is a mistake or wish to discuss your account, please contact our support team immediately.\n\n" +
                 "Best regards,\nThe CrediFlow Team",
-                CustomerDTO = CustomerDTO_Data
+                CustomerDTO = CustomerDTOData
             };
             bool Notification_Data = NotificationService.Create(NotificationDTO_Data);
 
 
 
             //Saving updated customer data in DB
-            CustomerDTO Updated_Customer_Data = CustomerService.Update(CustomerDTO_Data);
+            CustomerDTO Updated_Customer_Data = CustomerService.Update(CustomerDTOData);
         }
 
         public static CustomerLoanDTO LoanReturn(PaymentDTO PaymentDTO_Data)
         {
             //Getting related data
-            CustomerDTO CustomerDTO_Data = CustomerService.Get(PaymentDTO_Data.Customer_Id);
+            CustomerDTO CustomerDTOData = CustomerService.Get(PaymentDTO_Data.Customer_Id);
             CustomerLoanDTO CustomerLoanDTO_Data = CustomerLoanService.Get(PaymentDTO_Data.Customer_Loan_Id);
             LoanDTO LoanDTO_Data = LoanService.Get(CustomerLoanDTO_Data.Loan_Id);
 
             //Null checks and validations
-            if (!IsValidPayment(PaymentDTO_Data, CustomerDTO_Data, CustomerLoanDTO_Data, LoanDTO_Data))
+            if (!IsValidPayment(PaymentDTO_Data, CustomerDTOData, CustomerLoanDTO_Data, LoanDTO_Data))
                 return null;
      
 
             //Processing payment
             PaymentDTO_Data.Payment_Date = DateTime.Now;
-            PaymentDTO_Data.CustomerDTO = CustomerDTO_Data;
+            PaymentDTO_Data.CustomerDTO = CustomerDTOData;
             PaymentDTO_Data.CustomerLoanDTO = CustomerLoanDTO_Data; 
             PaymentDTO_Data.Amount = CustomerLoanDTO_Data.Next_Installment_Amount;
 
@@ -100,19 +100,19 @@ namespace BusinessLogic_Layer.Service
             
             if(CustomerLoanDTO_Data.Next_Installment_Date - DateTime.Now >= TimeSpan.Zero) // On-time payment
             {
-                if(CustomerDTO_Data.Status == "Restricted") //Re-activating restricted customers
+                if(CustomerDTOData.Status == "Restricted") //Re-activating restricted customers
                 {
-                    CustomerDTO_Data.Credit_Score = 300; // Reset credit score upon re-activation
-                    CustomerDTO_Data.Status = "Poor";
+                    CustomerDTOData.Credit_Score = 300; // Reset credit score upon re-activation
+                    CustomerDTOData.Status = "Poor";
                 }
                 else // Normal Monthly Installment Payment
                 {
-                    CustomerDTO_Data.Credit_Score += 20; // Increase credit score for on-time payment
+                    CustomerDTOData.Credit_Score += 20; // Increase credit score for on-time payment
                 }
             }
             //Ensuring credit score remains within bounds
-            if (CustomerDTO_Data.Credit_Score > 900) CustomerDTO_Data.Credit_Score = 900;
-            else if (CustomerDTO_Data.Credit_Score < 0) CustomerDTO_Data.Credit_Score = 0;
+            if (CustomerDTOData.Credit_Score > 900) CustomerDTOData.Credit_Score = 900;
+            else if (CustomerDTOData.Credit_Score < 0) CustomerDTOData.Credit_Score = 0;
 
 
 
@@ -148,22 +148,22 @@ namespace BusinessLogic_Layer.Service
             //Saving payment in DB
             var Payment_Data = DataAccessFactory.PaymentData().Create(GetMapper().Map<Payment>(PaymentDTO_Data));
             //Saving updated customer data in DB
-            CustomerDTO Customer_Data = CustomerService.Update(CustomerDTO_Data);
+            CustomerDTO Customer_Data = CustomerService.Update(CustomerDTOData);
 
             //Updating CustomerLoan in DB and returning updated data
             if (Payment_Data)
             {
                 
                 CustomerLoanDTO Data = GetMapper().Map<CustomerLoanDTO>(DataAccessFactory.CustomerLoanData().Update(GetMapper().Map<CustomerLoan>(CustomerLoanDTO_Data)));
-                Data.CustomerDTO = CustomerDTO_Data;
+                Data.CustomerDTO = CustomerDTOData;
                 Data.LoanDTO = LoanDTO_Data;
 
                 //Creating Notification for the customer
                 var NotificationDTO_Data = new NotificationDTO
                 {
-                    Customer_Id = CustomerDTO_Data.Customer_Id,
+                    Customer_Id = CustomerDTOData.Customer_Id,
                     Title = "Payment Received",
-                    Message = $"Dear {CustomerDTO_Data.Name},\n\n" +
+                    Message = $"Dear {CustomerDTOData.Name},\n\n" +
                     "We’re pleased to confirm that your recent payment has been received successfully. Here are the details of your transaction:\n\n" +
                     $"Payment Amount: {PaymentDTO_Data.Amount}\n" +
                     $"Payment Date: {PaymentDTO_Data.Payment_Date:MMMM dd, yyyy}\n" +
@@ -175,7 +175,7 @@ namespace BusinessLogic_Layer.Service
                         ? "Congratulations! Your loan has been fully paid off. Thank you for your commitment and trust in CrediFlow.\n\n"
                         : "Thank you for your timely payment. We appreciate your continued trust in CrediFlow.\n\n") +
                         "Best regards,\nThe CrediFlow Team",
-                    CustomerDTO = CustomerDTO_Data
+                    CustomerDTO = CustomerDTOData
                 };
                 
                 bool Notification_Data = NotificationService.Create(NotificationDTO_Data);
