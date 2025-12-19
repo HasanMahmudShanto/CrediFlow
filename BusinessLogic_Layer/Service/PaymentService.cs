@@ -24,7 +24,7 @@ namespace BusinessLogic_Layer.Service
         }
 
         
-        public static bool isValidPayment(PaymentDTO PaymentDTO_Data, CustomerDTO CustomerDTO_Data, CustomerLoanDTO CustomerLoanDTO_Data, LoanDTO LoanDTO_Data)
+        public static bool IsValidPayment(PaymentDTO PaymentDTO_Data, CustomerDTO CustomerDTO_Data, CustomerLoanDTO CustomerLoanDTO_Data, LoanDTO LoanDTO_Data)
         {
             //Checking if related data exists
             if (CustomerLoanDTO_Data == null || CustomerDTO_Data == null || LoanDTO_Data == null)
@@ -42,7 +42,7 @@ namespace BusinessLogic_Layer.Service
             return true;
         }
 
-        public static void Terminate_Customer(CustomerDTO CustomerDTO_Data, CustomerLoanDTO CustomerLoanDTO_Data)
+        public static void TerminateCustomer(CustomerDTO CustomerDTO_Data, CustomerLoanDTO CustomerLoanDTO_Data)
         {
             CustomerDTO_Data.Status = "Terminated"; // If restricted, then terminate the customer
             CustomerDTO_Data.Credit_Score = 0; // Reset credit score upon termination
@@ -86,7 +86,7 @@ namespace BusinessLogic_Layer.Service
             LoanDTO LoanDTO_Data = LoanService.Get(CustomerLoanDTO_Data.Loan_Id);
 
             //Null checks and validations
-            if (!isValidPayment(PaymentDTO_Data, CustomerDTO_Data, CustomerLoanDTO_Data, LoanDTO_Data))
+            if (!IsValidPayment(PaymentDTO_Data, CustomerDTO_Data, CustomerLoanDTO_Data, LoanDTO_Data))
                 return null;
      
 

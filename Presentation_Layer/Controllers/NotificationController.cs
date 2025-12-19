@@ -14,7 +14,7 @@ namespace Presentation_Layer.Controllers
     {
         [HttpGet]
         [Route("all")]
-        public HttpResponseMessage Get()
+        public HttpResponseMessage GetAllNotifications()
         {
             try
             {
@@ -37,7 +37,7 @@ namespace Presentation_Layer.Controllers
 
         [HttpGet]
         [Route("allpartial")]
-        public HttpResponseMessage Get_Partial()
+        public HttpResponseMessage GetPartial()
         {
             try
             {
@@ -58,7 +58,7 @@ namespace Presentation_Layer.Controllers
         }
         [HttpGet]
         [Route("{id}")]
-        public HttpResponseMessage Get(int id)
+        public HttpResponseMessage GetNotificationById(int id)
         {
             try
             {
@@ -79,7 +79,7 @@ namespace Presentation_Layer.Controllers
         }
         [HttpGet]
         [Route("customer/{id}")]
-        public HttpResponseMessage Get_By_Customer(int id)
+        public HttpResponseMessage GetNotificationByCustomerId(int id)
         {
             try
             {
@@ -101,7 +101,7 @@ namespace Presentation_Layer.Controllers
         }
         [HttpPost]
         [Route("create")]
-        public HttpResponseMessage Create(NotificationDTO NotificationDTO_Data)
+        public HttpResponseMessage CreateNotification(NotificationDTO NotificationDTO_Data)
         {
             
             if (!ModelState.IsValid)
@@ -132,7 +132,7 @@ namespace Presentation_Layer.Controllers
         }
         [HttpPost]
         [Route("update")]
-        public HttpResponseMessage Update(NotificationDTO NotificationDTO_Data)
+        public HttpResponseMessage UpdateNotification(NotificationDTO NotificationDTO_Data)
         {
             
             if (!ModelState.IsValid)
@@ -164,7 +164,7 @@ namespace Presentation_Layer.Controllers
 
         [HttpPost]
         [Route("delete/{id}")]
-        public HttpResponseMessage Delete(int id)
+        public HttpResponseMessage DeleteNotification(int id)
         {
             try
             {

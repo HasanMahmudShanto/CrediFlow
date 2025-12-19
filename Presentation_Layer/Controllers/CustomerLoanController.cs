@@ -16,21 +16,21 @@ namespace Presentation_Layer.Controllers
 
         [HttpPost]
         [Route("create")]
-        public HttpResponseMessage Create(CustomerLoanDTO CustomerLoanDTO_Data)
+        public HttpResponseMessage CreateCustomerLoan(CustomerLoanDTO CustomerLoanDTO_Data)
         {
             CustomerLoanDTO Data = CustomerLoanService.Get_Loan(CustomerLoanDTO_Data);
             return Request.CreateResponse(HttpStatusCode.OK, Data);
         }
         [HttpGet]
         [Route("get/{id}")]
-        public HttpResponseMessage Get(int id)
+        public HttpResponseMessage GetCustomerLoanById(int id)
         {
             CustomerLoanDTO Data = CustomerLoanService.Get(id);
             return Request.CreateResponse(HttpStatusCode.OK, Data);
         }
         [HttpGet]
         [Route("all")]
-        public HttpResponseMessage Get()
+        public HttpResponseMessage GetAllCustomerLoans()
         {
             try
             {
@@ -52,7 +52,7 @@ namespace Presentation_Layer.Controllers
         }
         [HttpGet]
         [Route("active_loans")]
-        public HttpResponseMessage Get_Active_Loans()
+        public HttpResponseMessage GetActiveLoans()
         {
             try
             {
@@ -73,7 +73,7 @@ namespace Presentation_Layer.Controllers
         }
         [HttpGet]
         [Route("closed_loans")]
-        public HttpResponseMessage Get_Closed_Loans()
+        public HttpResponseMessage GetClosedLoans()
         {
             try
             {
@@ -94,7 +94,7 @@ namespace Presentation_Layer.Controllers
         }
         [HttpPost]
         [Route("update")]
-        public HttpResponseMessage Update(CustomerLoanDTO CustomerLoanDTO_Data)
+        public HttpResponseMessage UpdateCustomerLoans(CustomerLoanDTO CustomerLoanDTO_Data)
         {
             try
             {
@@ -115,7 +115,7 @@ namespace Presentation_Layer.Controllers
         }
         [HttpPost]
         [Route("delete/{id}")]
-        public HttpResponseMessage Delete(int id)
+        public HttpResponseMessage DeleteCustomerLoans(int id)
         {
             try
             {

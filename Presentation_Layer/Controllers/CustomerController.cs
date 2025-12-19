@@ -16,7 +16,7 @@ namespace Presentation_Layer.Controllers
     {
         [HttpGet]
         [Route("all")]
-        public HttpResponseMessage Get()
+        public HttpResponseMessage GetAllCustomers()
         {
             try
             {
@@ -31,7 +31,7 @@ namespace Presentation_Layer.Controllers
 
         [HttpGet]
         [Route("allpartial")]
-        public HttpResponseMessage Get_Partial()
+        public HttpResponseMessage GetPartialCustomers()
         {
             try
             {
@@ -47,7 +47,7 @@ namespace Presentation_Layer.Controllers
 
         [HttpPost]
         [Route("create")]
-        public HttpResponseMessage Create(CustomerDTO CustomerDTO_Data)
+        public HttpResponseMessage CreateCustomer(CustomerDTO CustomerDTO_Data)
         {
             
             if (!ModelState.IsValid)
@@ -71,7 +71,7 @@ namespace Presentation_Layer.Controllers
 
         [HttpGet]
         [Route("customer_loans/{id}")]
-        public HttpResponseMessage Get_Loans(int id)
+        public HttpResponseMessage GetLoansByCustomerId(int id)
         {
             try
             {
@@ -92,7 +92,7 @@ namespace Presentation_Layer.Controllers
         }
         [HttpGet]
         [Route("customer/{id}")]
-        public HttpResponseMessage Get(int id)
+        public HttpResponseMessage GetCustomerById(int id)
         {
             try
             {
@@ -113,7 +113,7 @@ namespace Presentation_Layer.Controllers
         }
         [HttpPost]
         [Route("update")]
-        public HttpResponseMessage Update(CustomerDTO CustomerDTO_Data)
+        public HttpResponseMessage UpdateCustomer(CustomerDTO CustomerDTO_Data)
         {
             if (!ModelState.IsValid)
             {
@@ -144,7 +144,7 @@ namespace Presentation_Layer.Controllers
         }
         [HttpPost]
         [Route("delete/{id}")]
-        public HttpResponseMessage Delete(int id)
+        public HttpResponseMessage DeleteCustomer(int id)
         {
             try
             {

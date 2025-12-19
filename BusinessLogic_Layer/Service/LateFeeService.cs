@@ -36,7 +36,7 @@ namespace BusinessLogic_Layer.Service
                     {
                         if (loan.CustomerDTO.Status == "Restricted")
                         {
-                            PaymentService.Terminate_Customer(loan.CustomerDTO, loan);
+                            PaymentService.TerminateCustomer(loan.CustomerDTO, loan);
                         }
                         //Applying late fee
                         float Late_Fee = (loan.Next_Installment_Amount * (loan.LoanDTO.Penalty_Percentage / 100));

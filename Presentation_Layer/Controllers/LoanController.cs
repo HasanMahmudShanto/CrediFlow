@@ -14,7 +14,7 @@ namespace Presentation_Layer.Controllers
     {
         [HttpGet]
         [Route("all")]
-        public HttpResponseMessage Get()
+        public HttpResponseMessage GetAllLoans()
         {
             try
             {
@@ -35,7 +35,7 @@ namespace Presentation_Layer.Controllers
         }
         [HttpGet]
         [Route("{id}")]
-        public HttpResponseMessage Get(int id)
+        public HttpResponseMessage GetLoansById(int id)
         {
             try
             {
@@ -57,7 +57,7 @@ namespace Presentation_Layer.Controllers
         }
         [HttpPost]
         [Route("create")]
-        public HttpResponseMessage Create(LoanDTO LoanDTO_Data) 
+        public HttpResponseMessage CreateLoan(LoanDTO LoanDTO_Data) 
         {
             try
             {
@@ -79,7 +79,7 @@ namespace Presentation_Layer.Controllers
         }
         [HttpGet]
         [Route("Get_eligible_loans/{customer_id}")]
-        public HttpResponseMessage Get_eligible_loans(int customer_id)
+        public HttpResponseMessage GetEligibleLoans(int customer_id)
         {
             try
             {
@@ -107,7 +107,7 @@ namespace Presentation_Layer.Controllers
         }
         [HttpPost]
         [Route("update")]
-        public HttpResponseMessage Update(LoanDTO LoanDTO_Data)
+        public HttpResponseMessage UpdateLoan(LoanDTO LoanDTO_Data)
         {
             try
             {
@@ -129,7 +129,7 @@ namespace Presentation_Layer.Controllers
         }
         [HttpPost]
         [Route("delete/{id}")]
-        public HttpResponseMessage Delete(int id)
+        public HttpResponseMessage DeleteLoan(int id)
         {
             try
             {

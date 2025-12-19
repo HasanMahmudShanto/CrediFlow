@@ -37,7 +37,7 @@ namespace Presentation_Layer.Controllers
         }
         [HttpGet]
         [Route("all")]
-        public HttpResponseMessage All()
+        public HttpResponseMessage GetAllPayments()
         {
             try
             {
@@ -58,7 +58,7 @@ namespace Presentation_Layer.Controllers
         }
         [HttpGet]
         [Route("{id}")]
-        public HttpResponseMessage Get(int id)
+        public HttpResponseMessage GetPaymentById(int id)
         {
             try
             {
@@ -79,7 +79,7 @@ namespace Presentation_Layer.Controllers
         }
         [HttpPost]
         [Route("create")]
-        public HttpResponseMessage Create(PaymentDTO PaymentDTO_Data)
+        public HttpResponseMessage CreatePayment(PaymentDTO PaymentDTO_Data)
         {
             try
             {
@@ -100,7 +100,7 @@ namespace Presentation_Layer.Controllers
         }
         [HttpPost]
         [Route("update")]
-        public HttpResponseMessage Update(PaymentDTO PaymentDTO_Data)
+        public HttpResponseMessage UpdatePayment(PaymentDTO PaymentDTO_Data)
         {
             try
             {
@@ -121,7 +121,7 @@ namespace Presentation_Layer.Controllers
         }
         [HttpPost]
         [Route("delete/{id}")]
-        public HttpResponseMessage Delete(int id)
+        public HttpResponseMessage DeletePayment(int id)
         {
             try
             {

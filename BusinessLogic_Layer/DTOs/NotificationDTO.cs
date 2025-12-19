@@ -18,8 +18,6 @@ namespace BusinessLogic_Layer.DTOs
         [Required(ErrorMessage = "Message cannot be empty.")]
         public string Message { get; set; }
 
-        // Date is auto-generated on creation, but provided on update, 
-        [Required(ErrorMessage = "Date cannot be empty.")]
         public DateTime Date { get; set; }
 
         //Customer ID is required.
